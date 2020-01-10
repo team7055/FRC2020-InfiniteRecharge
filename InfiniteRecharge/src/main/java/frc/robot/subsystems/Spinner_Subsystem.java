@@ -21,9 +21,14 @@ public class Spinner_Subsystem extends SubsystemBase {
     spinner = new Talon(Constants.SPINNER_MOTOR);
   }
 
-  public void spin(){
+  public void startSpin(){
     //Sets the motor speed to 100%
     spinner.set(1.0);
+  }
+
+  public void endSpin(){
+    //Sets the motor speed to 0%
+    spinner.set(0.0);
   }
 
   @Override
