@@ -20,7 +20,7 @@ public class Drivetrain_Subsystem extends SubsystemBase {
   private Talon frontLeft;
   private Talon rearRight;
   private Talon rearLeft;
-  private MecanumDrive drive;
+  private MecanumDrive drivetrain;
   
   public Drivetrain_Subsystem() {
     // Initialize motors with ports from Constants.java
@@ -30,8 +30,11 @@ public class Drivetrain_Subsystem extends SubsystemBase {
     rearLeft = new Talon(Constants.MOTOR_REAR_LEFT);
 
     // Initialize drive with motors
-    drive = new MecanumDrive(frontLeft, rearLeft, frontRight, rearRight);
-    //yguverfgtygfrgt
+    drivetrain = new MecanumDrive(frontLeft, rearLeft, frontRight, rearRight);
+  }
+
+  public void drive(double x, double y, double z) {
+    drivetrain.driveCartesian(y, x, z);
   }
 
   @Override
