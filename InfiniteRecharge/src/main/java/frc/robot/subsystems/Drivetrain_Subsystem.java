@@ -35,6 +35,7 @@ public class Drivetrain_Subsystem extends SubsystemBase {
 
   public void drive(double x, double y, double z) {
     drivetrain.driveCartesian(y, x, z);
+    System.out.println(x + " " + y + " " + z);
   }
 
   @Override
