@@ -8,7 +8,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Robot;
 import frc.robot.subsystems.Spinner_Subsystem;
 
 public class Spinner_Command extends CommandBase {
@@ -16,10 +15,10 @@ public class Spinner_Command extends CommandBase {
    * Creates a new Spinner_Command.
    */
   private final Spinner_Subsystem spinner;
-  public Spinner_Command() {
+  public Spinner_Command(Spinner_Subsystem subsystem){
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(Robot.spinner);
-    spinner = new Spinner_Subsystem();
+    spinner = subsystem;
+    addRequirements(spinner);
   }
 
   // Called when the command is initially scheduled.
