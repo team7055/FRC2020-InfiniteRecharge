@@ -10,6 +10,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain_Subsystem;
+import static frc.robot.Constants.Controller.*;
 
 public class Drive_Command extends CommandBase {
   /**
@@ -41,9 +42,9 @@ public class Drive_Command extends CommandBase {
   @Override
   public void execute() {
     // Get x, y, and z values from the joystick's axes
-    double x = driveStick.getRawAxis(0);
-    double y = driveStick.getRawAxis(1);
-    double z = driveStick.getRawAxis(2);
+    double x = driveStick.getRawAxis(JOYSTICK_LEFT_X);
+    double y = driveStick.getRawAxis(JOYSTICK_LEFT_Y);
+    double z = driveStick.getRawAxis(JOYSTICK_RIGHT_X);
 
     drivetrain.drive(x, y, z);
   }
