@@ -27,7 +27,7 @@ public class Drive_Command extends CommandBase {
     // Set this command's values of  x y and z to the stick's
     this.x = x;
     this.y = y;
-    this.z = y;
+    this.z = z;
 
     // Add the drivetrain to this command's dependencies
     addRequirements(drivetrain);
