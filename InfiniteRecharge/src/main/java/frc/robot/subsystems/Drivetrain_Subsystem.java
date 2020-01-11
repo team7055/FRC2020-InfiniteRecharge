@@ -10,7 +10,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
+import static frc.robot.Constants.Motors.*;
 
 public class Drivetrain_Subsystem extends SubsystemBase {
   /**
@@ -24,10 +24,10 @@ public class Drivetrain_Subsystem extends SubsystemBase {
   
   public Drivetrain_Subsystem() {
     // Initialize motors with ports from Constants.java
-    frontRight = new Talon(Constants.MOTOR_FRONT_RIGHT);
-    frontLeft = new Talon(Constants.MOTOR_FRONT_LEFT);
-    rearRight = new Talon(Constants.MOTOR_REAR_RIGHT);
-    rearLeft = new Talon(Constants.MOTOR_REAR_LEFT);
+    frontRight = new Talon(MOTOR_FRONT_RIGHT);
+    frontLeft = new Talon(MOTOR_FRONT_LEFT);
+    rearRight = new Talon(MOTOR_REAR_RIGHT);
+    rearLeft = new Talon(MOTOR_REAR_LEFT);
 
     // Initialize drive with motors
     drivetrain = new MecanumDrive(frontLeft, rearLeft, frontRight, rearRight);
