@@ -10,8 +10,10 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.commands.Drive_Command;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.Spinner_Command;
+import frc.robot.subsystems.Drivetrain_Subsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Spinner_Subsystem;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -33,7 +35,7 @@ public class RobotContainer {
 
   private final Spinner_Command spinner_command = new Spinner_Command(spinner_subsystem);
 
-
+  private final Drivetrain_Subsystem drivetrain = new Drivetrain_Subsystem();
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -56,6 +58,16 @@ public class RobotContainer {
     //Creates Button using the Joystick. When the A Button is pressed the spinner command will execute.
     JoystickButton spinnerButton = new JoystickButton(driveStick, Constants.A_BUTTON);
     spinnerButton.whenPressed(spinner_command);
+
+    drivetrain.setDefaultCommand(new Drive_Command(
+      drivetrain,
+      driveStick
+    ));
+  }
+
+  // Have a public getter so we can use this command in teleop periodic
+  public Command getDrivetrainDefault() {
+    return drivetrain.getDefaultCommand();
   }
 
 

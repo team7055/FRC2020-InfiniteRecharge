@@ -16,8 +16,26 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+<<<<<<< HEAD
 
     public static final int SPINNER_MOTOR = 4;
 	public static final int JOYSTICK = 0;
 	public static final int A_BUTTON = 0;
+=======
+    // Add motor ports
+    public final class Motors {
+        public static final int MOTOR_FRONT_RIGHT = 0;
+        public static final int MOTOR_FRONT_LEFT = 1;
+        public static final int MOTOR_REAR_RIGHT = 2;
+        public static final int MOTOR_REAR_LEFT = 3;
+    }
+
+    // Ports for various joystick axes and buttons
+    public final class Controller {
+        public static final int JOYSTICK_LEFT_X = 0;
+        public static final int JOYSTICK_LEFT_Y = 1;
+        public static final int JOYSTICK_RIGHT_X = 4;
+        public static final int JOYSTICK_RIGHT_Y = 5;
+    }
+>>>>>>> 0ff6ed34560b51984a8ee0a2e64e45b02fc4c003
 }
