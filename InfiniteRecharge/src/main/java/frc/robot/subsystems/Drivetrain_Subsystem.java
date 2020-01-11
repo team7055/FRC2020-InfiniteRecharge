@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -22,7 +23,7 @@ public class Drivetrain_Subsystem extends SubsystemBase {
   private Talon rearLeft;
   private MecanumDrive drivetrain;
 
-  private Talon shootMotor;
+  private Spark shootMotor;
   
   public Drivetrain_Subsystem() {
     // Initialize motors with ports from Constants.java
@@ -31,7 +32,7 @@ public class Drivetrain_Subsystem extends SubsystemBase {
     rearRight = new Talon(MOTOR_REAR_RIGHT);
     rearLeft = new Talon(MOTOR_REAR_LEFT);
 
-    shootMotor = new Talon(7);
+    shootMotor = new Spark(7);
 
     // Initialize drive with motors
     drivetrain = new MecanumDrive(frontLeft, rearLeft, frontRight, rearRight);
