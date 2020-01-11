@@ -7,6 +7,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain_Subsystem;
 
@@ -17,17 +18,15 @@ public class Drive_Command extends CommandBase {
 
   // Create variable for the drivetrain subsystem
   private Drivetrain_Subsystem drivetrain;
-  private double x, y, z;
+  private Joystick driveStick;
 
-  public Drive_Command(Drivetrain_Subsystem drivetrain, double x, double y, double z) {
+  public Drive_Command(Drivetrain_Subsystem drivetrain, Joystick stick) {
     // Fill this command's field for drivetrain with the drivetrain we
     // pass in as a parameter
     this.drivetrain = drivetrain;
 
-    // Set this command's values of  x y and z to the stick's
-    this.x = x;
-    this.y = y;
-    this.z = z;
+    // Set this command's joystick to the drivestick
+    driveStick = stick;
 
     // Add the drivetrain to this command's dependencies
     addRequirements(drivetrain);
@@ -41,6 +40,11 @@ public class Drive_Command extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    // Get x, y, and z values from the joystick's axes
+    double x = driveStick.getRawAxis(0);
+    double y = driveStick.getRawAxis(1);
+    double z = driveStick.getRawAxis(2);
+
     drivetrain.drive(x, y, z);
   }
 

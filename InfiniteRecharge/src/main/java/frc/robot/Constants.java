@@ -23,4 +23,11 @@ public final class Constants {
         public static final int MOTOR_REAR_RIGHT = 2;
         public static final int MOTOR_REAR_LEFT = 3;
     }
+
+    // Ports for various joystick axes and buttons
+    public final class Controller {
+        public static final int JOYSTICK_LEFT_X = 0;
+        public static final int JOYSTICK_LEFT_Y = 1;
+        public static final int JOYSTICK_RIGHT_X = 
+    }
 }

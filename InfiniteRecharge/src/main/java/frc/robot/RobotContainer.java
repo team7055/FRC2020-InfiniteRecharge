@@ -49,8 +49,15 @@ public class RobotContainer {
 
     Joystick driveStick = new Joystick(0);
 
-    new PerpetualCommand(
-      new Drive_Command(drivetrain, driveStick.getRawAxis(0), driveStick.getRawAxis(1), driveStick.getRawAxis(2)));
+    drivetrain.setDefaultCommand(new Drive_Command(
+      drivetrain,
+      driveStick
+    ));
+  }
+
+  // Have a public getter so we can use this command in teleop periodic
+  public Command getDrivetrainDefault() {
+    return drivetrain.getDefaultCommand();
   }
 
 
