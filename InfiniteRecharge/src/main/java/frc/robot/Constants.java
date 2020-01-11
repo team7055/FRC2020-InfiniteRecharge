@@ -18,4 +18,6 @@ package frc.robot;
 public final class Constants {
 
     public static final int SPINNER_MOTOR = 4;
+	public static final int JOYSTICK = 0;
+	public static final int A_BUTTON = 0;
 }
