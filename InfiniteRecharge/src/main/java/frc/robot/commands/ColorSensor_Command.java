@@ -7,6 +7,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ColorSensor_Subsytem;
 
@@ -30,7 +31,14 @@ public class ColorSensor_Command extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println(colorSensor.getColor().red);
+    // Get the color from the sensor
+    Color hue = colorSensor.getColor();
+
+    // Debug
+    System.out.println("=== COLORS ===");
+    System.out.println("Red: " + hue.red);
+    System.out.println("Blue: " + hue.blue);
+    System.out.println("Green: " + hue.green);
   }
 
   // Called once the command ends or is interrupted.

@@ -40,13 +40,9 @@ public class Drivetrain_Subsystem extends SubsystemBase {
     drivetrain = new MecanumDrive(frontLeft, rearLeft, frontRight, rearRight);
   }
 
-  public void drive(double x, double y, double z, double shoot1, double shoot2) {
+  public void drive(double x, double y, double z) {
     drivetrain.feedWatchdog();
     drivetrain.driveCartesian(y, x, z);
-    System.out.println(x + " " + y + " " + z);
-
-    shootMotor.set(shoot1 * .75);
-    shootMotor2.set(shoot2);
   }
 
   @Override

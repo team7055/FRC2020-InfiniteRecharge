@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorSensorV3;
 
 import edu.wpi.first.wpilibj.I2C;
@@ -18,11 +19,16 @@ public class ColorSensor_Subsytem extends SubsystemBase {
    * Creates a new ColorSensor_Subystem.
    */
 
-  private I2C.Port i2cPort;  
+  private I2C.Port i2cPort;
   private final ColorSensorV3 colorSensor;
+  private ColorMatch colorMatcher;
+  private Color red, green, blue, yellow;
 
   public ColorSensor_Subsytem() {
+    // Set i2c port to the roborio port
     i2cPort = I2C.Port.kOnboard;
+
+    // Initialize sensor on the i2c port
     colorSensor = new ColorSensorV3(i2cPort);
   }
 
