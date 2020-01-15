@@ -23,8 +23,8 @@ public class Drivetrain_Subsystem extends SubsystemBase {
   private Talon rearLeft;
   private MecanumDrive drivetrain;
 
-  private Spark shootMotor;
-  private Spark shootMotor2;
+  public Spark shootMotor;
+  public Spark shootMotor2;
   
   public Drivetrain_Subsystem() {
     // Initialize motors with ports from Constants.java

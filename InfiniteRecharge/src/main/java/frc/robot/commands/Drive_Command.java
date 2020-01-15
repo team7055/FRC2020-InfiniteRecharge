@@ -41,12 +41,13 @@ public class Drive_Command extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+
     // Get x, y, and z values from the joystick's axes
     double x = driveStick.getRawAxis(JOYSTICK_LEFT_X);
     double y = driveStick.getRawAxis(JOYSTICK_LEFT_Y);
     double z = driveStick.getRawAxis(JOYSTICK_RIGHT_X);
 
-    drivetrain.drive(x, y, z, y, -1 * y);
+    drivetrain.drive(x, y, z, y, y);
   }
 
   // Called once the command ends or is interrupted.
