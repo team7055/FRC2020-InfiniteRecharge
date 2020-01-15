@@ -36,4 +36,36 @@ public final class Constants {
         public static final int JOYSTICK_RIGHT_Y = 5;
         public static final int JOYSTICK_A_BUTTON = 1;
     }
+
+    // Colors retrieved from the color sensor
+    public final class Colors {
+
+        // Values for red
+        public final class Red {
+            public static final double RED = .52758;
+            public static final double GREEN = .3518;
+            public static final double BLUE = .1206;
+        }
+
+        // Values for blue
+        public final class Blue {
+            public static final double RED = .10259;
+            public static final double GREEN = .4555;
+            public static final double BLUE = .38183;
+        }
+
+        // Values for green
+        public final class Green {
+            public static final double RED = .1809;
+            public static final double GREEN = .5888;
+            public static final double BLUE = .2302;
+        }
+
+        // Values for yeller'
+        public final class Yellow {
+            public static final double RED = .35815;
+            public static final double GREEN = .52586;
+            public static final double BLUE = .11328;
+        }
+    }
 }
