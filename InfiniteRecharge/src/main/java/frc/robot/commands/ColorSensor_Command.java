@@ -32,13 +32,10 @@ public class ColorSensor_Command extends CommandBase {
   @Override
   public void execute() {
     // Get the color from the sensor
-    Color hue = colorSensor.getColor();
+    String color = colorSensor.getColor();
 
-    // Debug
-    System.out.println("=== COLORS ===");
-    System.out.println("Red: " + hue.red);
-    System.out.println("Blue: " + hue.blue);
-    System.out.println("Green: " + hue.green);
+                                  // Debug
+                                  System.out.println(color);
   }
 
   // Called once the command ends or is interrupted.
