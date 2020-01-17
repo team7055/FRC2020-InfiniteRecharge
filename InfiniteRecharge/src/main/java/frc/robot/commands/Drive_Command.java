@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain_Subsystem;
 import static frc.robot.Constants.Controller.*;
 
+import com.kauailabs.navx.frc.AHRS;
+
 public class Drive_Command extends CommandBase {
   /**
    * Creates a new Drive_Command, used for driving the robot (duh).
@@ -20,14 +22,18 @@ public class Drive_Command extends CommandBase {
   // Create variable for the drivetrain subsystem
   private Drivetrain_Subsystem drivetrain;
   private Joystick driveStick;
+  private AHRS gyro;
 
-  public Drive_Command(Drivetrain_Subsystem drivetrain, Joystick stick) {
+  public Drive_Command(Drivetrain_Subsystem drivetrain, Joystick stick, AHRS gyro) {
     // Fill this command's field for drivetrain with the drivetrain we
     // pass in as a parameter
     this.drivetrain = drivetrain;
 
     // Set this command's joystick to the drivestick
     driveStick = stick;
+
+    // Set the gyroscope
+    this.gyro = gyro;
 
     // Add the drivetrain to this command's dependencies
     addRequirements(drivetrain);
@@ -46,7 +52,7 @@ public class Drive_Command extends CommandBase {
     double y = driveStick.getRawAxis(JOYSTICK_LEFT_Y);
     double z = driveStick.getRawAxis(JOYSTICK_RIGHT_X);
 
-    drivetrain.drive(x, y, z);
+    drivetrain.drive(x, y, z, gyro);
   }
 
   // Called once the command ends or is interrupted.

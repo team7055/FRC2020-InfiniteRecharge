@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.Motors.*;
 
+import com.kauailabs.navx.frc.AHRS;
+
 public class Drivetrain_Subsystem extends SubsystemBase {
   /**
    * Creates a new Drivetrain_Subsystem.
@@ -34,9 +36,9 @@ public class Drivetrain_Subsystem extends SubsystemBase {
     drivetrain = new MecanumDrive(frontLeft, rearLeft, frontRight, rearRight);
   }
 
-  public void drive(double x, double y, double z) {
+  public void drive(double x, double y, double z, AHRS gyro) {
     drivetrain.feedWatchdog();
-    drivetrain.driveCartesian(y, x, z);
+    drivetrain.driveCartesian(y, x, z, gyro.getRoll());
   }
 
   @Override

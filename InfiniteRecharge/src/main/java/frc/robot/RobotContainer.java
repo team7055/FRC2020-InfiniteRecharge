@@ -7,8 +7,11 @@
 
 package frc.robot;
 
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ColorSensor_Command;
 import frc.robot.commands.Drive_Command;
@@ -49,10 +52,13 @@ public class RobotContainer {
 
     Joystick driveStick = new Joystick(0);
 
+    AHRS gyro = new AHRS(SPI.Port.kMXP); 
+
     drivetrain.setDefaultCommand(new Drive_Command(
       drivetrain,
-      driveStick
-    ));
+      driveStick,
+      gyro
+    )); 
 
     JoystickButton colorButton = new JoystickButton(driveStick, Constants.Controller.JOYSTICK_A_BUTTON);
     colorButton.whileHeld(colorSensorCommand);
