@@ -30,6 +30,8 @@ public final class Constants {
     public final class Controller {
         public static final int JOYSTICK_LEFT_X = 0;
         public static final int JOYSTICK_LEFT_Y = 1;
+        public static final int JOYSTICK_LEFT_TRIGGER = 2;
+        public static final int JOYSTICK_RIGHT_TRIGGER = 3;
         public static final int JOYSTICK_RIGHT_X = 4;
         public static final int JOYSTICK_RIGHT_Y = 5;
     }

@@ -59,7 +59,7 @@ public class RobotContainer {
     ));
 
     JoystickButton shootButton = new JoystickButton(driveStick, 1);
-    shootButton.whileHeld(new ShooterCommand(shooterSub));
+    shootButton.whileHeld(new ShooterCommand(shooterSub, driveStick));
   }
 
   // Have a public getter so we can use this command in teleop periodic
