@@ -12,8 +12,10 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.Drive_Command;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.ShooterCommand;
 import frc.robot.subsystems.Drivetrain_Subsystem;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.shooter;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
@@ -30,6 +32,8 @@ public class RobotContainer {
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
   private final Drivetrain_Subsystem drivetrain = new Drivetrain_Subsystem();
+
+  private final shooter shooterSub = new shooter();
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -55,10 +59,7 @@ public class RobotContainer {
     ));
 
     JoystickButton shootButton = new JoystickButton(driveStick, 1);
-    shootButton.whileHeld(() -> {
-      drivetrain.shootMotor.set(1.0);
-      drivetrain.shootMotor2.set(-1.0);
-    });
+    shootButton.whileHeld(new ShooterCommand(shooterSub));
   }
 
   // Have a public getter so we can use this command in teleop periodic
