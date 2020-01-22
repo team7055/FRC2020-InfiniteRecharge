@@ -9,16 +9,16 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.shooter;
+import frc.robot.subsystems.Shooter_Subsystem;
 import frc.robot.Constants.Controller;
 
-public class ShooterCommand extends CommandBase {
+public class Shooter_Command extends CommandBase {
   /**
    * Creates a new ShooterCommand.
    */
-  private shooter Shoot;
+  private Shooter_Subsystem Shoot;
   private Joystick Trigger;
-  public ShooterCommand(shooter subsystem, Joystick joystick) {
+  public Shooter_Command(Shooter_Subsystem subsystem, Joystick joystick) {
     // Use addRequirements() here to declare subsystem dependencies.
     Shoot = subsystem;
     Trigger = joystick;
@@ -35,6 +35,8 @@ public class ShooterCommand extends CommandBase {
   public void execute() {
     if (Trigger.getRawAxis(Controller.JOYSTICK_RIGHT_TRIGGER) > .8) {
       Shoot.spinShooter();
+    } else {
+      Shoot.stopShooter();
     }
   }
 

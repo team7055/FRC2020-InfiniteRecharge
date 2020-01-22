@@ -12,12 +12,11 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.Drive_Command;
 import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.ShooterCommand;
+import frc.robot.commands.Shooter_Command;
 import frc.robot.subsystems.Drivetrain_Subsystem;
 import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.subsystems.shooter;
+import frc.robot.subsystems.Shooter_Subsystem;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -33,7 +32,7 @@ public class RobotContainer {
 
   private final Drivetrain_Subsystem drivetrain = new Drivetrain_Subsystem();
 
-  private final shooter shooterSub = new shooter();
+  private final Shooter_Subsystem shooterSub = new Shooter_Subsystem();
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -58,8 +57,10 @@ public class RobotContainer {
       driveStick
     ));
 
-    JoystickButton shootButton = new JoystickButton(driveStick, 1);
-    shootButton.whileHeld(new ShooterCommand(shooterSub, driveStick));
+    shooterSub.setDefaultCommand(new Shooter_Command(
+      shooterSub, 
+      driveStick
+    ));
   }
 
   // Have a public getter so we can use this command in teleop periodic

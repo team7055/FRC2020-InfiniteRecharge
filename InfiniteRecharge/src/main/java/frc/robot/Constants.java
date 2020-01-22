@@ -22,8 +22,8 @@ public final class Constants {
         public static final int MOTOR_FRONT_LEFT = 1;
         public static final int MOTOR_REAR_RIGHT = 2;
         public static final int MOTOR_REAR_LEFT = 3;
-        public static final int MOTOR_SHOOTER_1 = 5;
-        public static final int MOTOR_SHOOTER_2 = 6;
+        public static final int MOTOR_SHOOTER_LEFT = 5;
+        public static final int MOTOR_SHOOTER_RIGHT = 6;
     }
 
     // Ports for various joystick axes and buttons

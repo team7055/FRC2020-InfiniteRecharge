@@ -9,16 +9,17 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.Motors;
 
-public class shooter extends SubsystemBase {
+public class Shooter_Subsystem extends SubsystemBase {
   /**
    * Creates a new shooter.
    */
-  Spark motor1, motor2;
+  private Spark motor1, motor2;
 
-  public shooter() {
-    motor1= new Spark(5);
-    motor2= new Spark(6);
+  public Shooter_Subsystem() {
+    motor1 = new Spark(Motors.MOTOR_SHOOTER_LEFT);
+    motor2 = new Spark(Motors.MOTOR_SHOOTER_RIGHT);
   }
 
   public void spinShooter() {
