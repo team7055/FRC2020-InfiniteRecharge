@@ -15,10 +15,11 @@ import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.Colors;
+import frc.robot.Constants.Colors.Colour;
 
 public class ColorSensor_Subsytem extends SubsystemBase {
   /**
-   * Creates a new ColorSensor_Subystem.
+   * Creates a new Colorensor_Subystem.
    */
 
   private I2C.Port i2cPort;
@@ -46,23 +47,23 @@ public class ColorSensor_Subsytem extends SubsystemBase {
     colorMatcher.addColorMatch(red);
     colorMatcher.addColorMatch(green);
     colorMatcher.addColorMatch(blue);
-    colorMatcher.addColorMatch(yellow);  
+    colorMatcher.addColorMatch(yellow);
   }
 
-  public String getColor() {
+  public Colour getColor() {
     ColorMatchResult match = colorMatcher.matchClosestColor(colorSensor.getColor());
 
-    String color;
+    Colour color;
     if (match.color == red) {
-      color = "red";
+      color = Colour.Red;
     } else if (match.color == green) {
-      color = "green";
+      color = Colour.Green;
     } else if (match.color == blue) {
-      color = "blue";
+      color = Colour.Blue;
     } else if (match.color == yellow) {
-      color = "yellow";
+      color = Colour.Yellow;
     } else {
-      color = "unkown";
+      color = Colour.Unknown;
     }
 
     return color;

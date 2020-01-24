@@ -16,6 +16,7 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ColorSensor_Subsytem;
 import frc.robot.subsystems.Drivetrain_Subsystem;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.Constants.Colors.Colour;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
@@ -34,14 +35,18 @@ public class RobotContainer {
   private final Drivetrain_Subsystem drivetrain = new Drivetrain_Subsystem();
 
   private final ColorSensor_Subsytem colorSensor = new ColorSensor_Subsytem();
-  private final ColorSensor_Command colorSensorCommand = new ColorSensor_Command(colorSensor);
+
+  // Testing!!
+  // Seeing if it is okay to create a new command for the button
+  //private final ColorSensor_Command colorSensorCommand = new ColorSensor_Command(colorSensor);
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
-  public RobotContainer() {
+  public RobotContainer(Colour target) {
     // Configure the button bindings
-    configureButtonBindings();
+    // Pass in the target color to bindings so we can use it in our command
+    configureButtonBindings(target);
   }
 
   /**
@@ -50,7 +55,7 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() {
+  private void configureButtonBindings(Colour targetColor) {
 
     Joystick driveStick = new Joystick(0);
 
@@ -60,7 +65,7 @@ public class RobotContainer {
     ));
 
     JoystickButton colorButton = new JoystickButton(driveStick, Constants.Controller.JOYSTICK_A_BUTTON);
-    colorButton.whileHeld(colorSensorCommand);
+    colorButton.whileHeld(new ColorSensor_Command(colorSensor, targetColor));
   }
 
   // Have a public getter so we can use this command in teleop periodic
