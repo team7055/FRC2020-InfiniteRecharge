@@ -12,10 +12,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ColorSensor_Command;
 import frc.robot.commands.Drive_Command;
-import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ColorSensor_Subsytem;
 import frc.robot.subsystems.Drivetrain_Subsystem;
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.Constants.Colors.Colour;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -28,10 +26,6 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-
   private final Drivetrain_Subsystem drivetrain = new Drivetrain_Subsystem();
 
   private final ColorSensor_Subsytem colorSensor = new ColorSensor_Subsytem();
@@ -81,8 +75,4 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return m_autoCommand;
-  }
 }
