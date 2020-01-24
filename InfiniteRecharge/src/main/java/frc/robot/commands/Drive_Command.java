@@ -47,7 +47,7 @@ public class Drive_Command extends CommandBase {
     double y = driveStick.getRawAxis(JOYSTICK_LEFT_Y);
     double z = driveStick.getRawAxis(JOYSTICK_RIGHT_X);
 
-    drivetrain.drive(x, y, z, y, y);
+    drivetrain.drive(x, y, z);
   }
 
   // Called once the command ends or is interrupted.
