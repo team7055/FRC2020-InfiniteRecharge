@@ -38,15 +38,17 @@ public class RobotContainer {
 
   // Testing!!
   // Seeing if it is okay to create a new command for the button
-  //private final ColorSensor_Command colorSensorCommand = new ColorSensor_Command(colorSensor);
+  private final ColorSensor_Command colorSensorCommand;
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer(Colour target) {
+    colorSensorCommand = new ColorSensor_Command(colorSensor, target);
+
     // Configure the button bindings
     // Pass in the target color to bindings so we can use it in our command
-    configureButtonBindings(target);
+    configureButtonBindings();
   }
 
   /**
@@ -55,7 +57,7 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings(Colour targetColor) {
+  private void configureButtonBindings() {
 
     Joystick driveStick = new Joystick(0);
 
@@ -65,7 +67,7 @@ public class RobotContainer {
     ));
 
     JoystickButton colorButton = new JoystickButton(driveStick, Constants.Controller.JOYSTICK_A_BUTTON);
-    colorButton.whileHeld(new ColorSensor_Command(colorSensor, targetColor));
+    colorButton.whileHeld(colorSensorCommand);
   }
 
   // Have a public getter so we can use this command in teleop periodic
