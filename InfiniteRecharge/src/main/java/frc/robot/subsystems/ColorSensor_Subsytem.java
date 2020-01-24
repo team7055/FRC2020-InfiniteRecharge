@@ -50,10 +50,19 @@ public class ColorSensor_Subsytem extends SubsystemBase {
     colorMatcher.addColorMatch(yellow);
   }
 
+  // This method returns the color sensors current readed color
+  // Returns the color as type Colour (can be found in Constants)
   public Colour getColor() {
+
+    // This variable stores the closest match to the colorSensor's getColor() of the
+    // ones stored in the matcher (added above)
     ColorMatchResult match = colorMatcher.matchClosestColor(colorSensor.getColor());
 
     Colour color;
+
+    // These if statements check which closest color the matcher determined and 
+    // assigns it to our color variable
+    // Unfortunately, we can't use a switch statement because, reasons
     if (match.color == red) {
       color = Colour.Red;
     } else if (match.color == green) {
@@ -66,6 +75,7 @@ public class ColorSensor_Subsytem extends SubsystemBase {
       color = Colour.Unknown;
     }
 
+    // Return the color that was matched
     return color;
   }
 
