@@ -22,9 +22,10 @@ public class Shooter_Subsystem extends SubsystemBase {
     motor2 = new Spark(Motors.MOTOR_SHOOTER_RIGHT);
   }
 
-  public void spinShooter() {
-    motor1.set(1.0);
-    motor2.set(-1.0);
+  // Spins the shooting motors at speed
+  public void spinShooter(double speed) {
+    motor1.set(speed);
+    motor2.set(-1 * speed);
   }
 
   public void stopShooter() {
