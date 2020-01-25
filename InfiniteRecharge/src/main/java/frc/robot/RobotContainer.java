@@ -12,9 +12,11 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ColorSensor_Command;
 import frc.robot.commands.Drive_Command;
+import frc.robot.commands.Shooter_Command;
+import frc.robot.subsystems.Shooter_Subsystem;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ColorSensor_Subsytem;
 import frc.robot.subsystems.Drivetrain_Subsystem;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
@@ -25,8 +27,9 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-
   private final Drivetrain_Subsystem drivetrain = new Drivetrain_Subsystem();
+
+  private final Shooter_Subsystem shooterSub = new Shooter_Subsystem();
 
   private final ColorSensor_Subsytem colorSensor = new ColorSensor_Subsytem();
   private final ColorSensor_Command colorSensorCommand = new ColorSensor_Command(colorSensor);
@@ -51,6 +54,11 @@ public class RobotContainer {
 
     drivetrain.setDefaultCommand(new Drive_Command(
       drivetrain,
+      driveStick
+    ));
+
+    shooterSub.setDefaultCommand(new Shooter_Command(
+      shooterSub, 
       driveStick
     ));
 
