@@ -7,13 +7,17 @@
 
 package frc.robot;
 
+
+
 /**
- * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
- * constants.  This class should not be used for any other purpose.  All constants should be
- * declared globally (i.e. public static).  Do not put anything functional in this class.
+ * The Constants class provides a convenient place for teams to hold robot-wide
+ * numerical or boolean constants. This class should not be used for any other
+ * purpose. All constants should be declared globally (i.e. public static). Do
+ * not put anything functional in this class.
  *
- * <p>It is advised to statically import this class (or one of its inner classes) wherever the
- * constants are needed, to reduce verbosity.
+ * <p>
+ * It is advised to statically import this class (or one of its inner classes)
+ * wherever the constants are needed, to reduce verbosity.
  */
 public final class Constants {
     // Add motor ports
@@ -34,5 +38,38 @@ public final class Constants {
         public static final int JOYSTICK_RIGHT_TRIGGER = 3;
         public static final int JOYSTICK_RIGHT_X = 4;
         public static final int JOYSTICK_RIGHT_Y = 5;
+        public static final int JOYSTICK_A_BUTTON = 1;
+    }
+
+    // Colors retrieved from the color sensor
+    public final class Colors {
+
+        // Values for red
+        public final class Red {
+            public static final double RED = .52758;
+            public static final double GREEN = .3518;
+            public static final double BLUE = .1206;
+        }
+
+        // Values for blue
+        public final class Blue {
+            public static final double RED = .10259;
+            public static final double GREEN = .4555;
+            public static final double BLUE = .38183;
+        }
+
+        // Values for green
+        public final class Green {
+            public static final double RED = .1809;
+            public static final double GREEN = .5888;
+            public static final double BLUE = .2302;
+        }
+
+        // Values for yeller'
+        public final class Yellow {
+            public static final double RED = .35815;
+            public static final double GREEN = .52586;
+            public static final double BLUE = .11328;
+        }
     }
 }
