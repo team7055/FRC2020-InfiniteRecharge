@@ -7,8 +7,8 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.Motors.*;
@@ -38,6 +38,7 @@ public class Drivetrain_Subsystem extends SubsystemBase {
     drivetrain.feedWatchdog();
     drivetrain.driveCartesian(y, x, z);
   }
+  // Shooter Inside Wheel Distance is 5 and 3 quarters inches
 
   @Override
   public void periodic() {

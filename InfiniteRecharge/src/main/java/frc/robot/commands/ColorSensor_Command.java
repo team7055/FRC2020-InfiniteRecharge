@@ -7,7 +7,7 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 // We need motor ports for manipulator wheel and color values from constants
@@ -20,7 +20,7 @@ public class ColorSensor_Command extends CommandBase {
    * Creates a new ColorSensor_Command.
    */
   // Motor that is on the robot to manipulate the color wheel
-  private Spark colorMotor;
+  private Victor colorMotor;
   
   // Subsystem for the color sensor and target
   private ColorSensor_Subsytem colorSensor;
@@ -34,7 +34,7 @@ public class ColorSensor_Command extends CommandBase {
     this.targetColor = targetColor;
 
     // The wheel that is used to manipulate the color wheel
-    colorMotor = new Spark(Motors.WHEEL_MOTOR);
+    colorMotor = new Victor(Motors.WHEEL_MOTOR);
 
     addRequirements(colorSensor);
   }
@@ -50,7 +50,7 @@ public class ColorSensor_Command extends CommandBase {
     // This execute will only run while the isFinished is false
     // This means it runs while the current color is not the target
     // Thus, we want to move the motor every time this runs
-    colorMotor.set(0.5);
+    colorMotor.set(0.6);
   }
 
   // Called once the command ends or is interrupted.
