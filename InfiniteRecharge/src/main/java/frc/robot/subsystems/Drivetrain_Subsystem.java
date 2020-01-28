@@ -7,7 +7,6 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -37,6 +36,7 @@ public class Drivetrain_Subsystem extends SubsystemBase {
   public void drive(double x, double y, double z) {
     drivetrain.feedWatchdog();
     drivetrain.driveCartesian(y, x, z);
+    System.out.println(x + " " + y + " " + z);
   }
 
   @Override

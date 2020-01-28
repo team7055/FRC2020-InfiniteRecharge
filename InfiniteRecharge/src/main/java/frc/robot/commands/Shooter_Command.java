@@ -9,28 +9,20 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Drivetrain_Subsystem;
-import static frc.robot.Constants.Controller.*;
+import frc.robot.subsystems.Shooter_Subsystem;
+import frc.robot.Constants.Controller;
 
-public class Drive_Command extends CommandBase {
+public class Shooter_Command extends CommandBase {
   /**
-   * Creates a new Drive_Command, used for driving the robot (duh).
+   * Creates a new ShooterCommand.
    */
-
-  // Create variable for the drivetrain subsystem
-  private Drivetrain_Subsystem drivetrain;
-  private Joystick driveStick;
-
-  public Drive_Command(Drivetrain_Subsystem drivetrain, Joystick stick) {
-    // Fill this command's field for drivetrain with the drivetrain we
-    // pass in as a parameter
-    this.drivetrain = drivetrain;
-
-    // Set this command's joystick to the drivestick
-    driveStick = stick;
-
-    // Add the drivetrain to this command's dependencies
-    addRequirements(drivetrain);
+  private Shooter_Subsystem Shoot;
+  private Joystick Trigger;
+  public Shooter_Command(Shooter_Subsystem subsystem, Joystick joystick) {
+    // Use addRequirements() here to declare subsystem dependencies.
+    Shoot = subsystem;
+    Trigger = joystick;
+    addRequirements(subsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -41,18 +33,17 @@ public class Drive_Command extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    // Get x, y, and z values from the joystick's axes
-    double x = driveStick.getRawAxis(JOYSTICK_LEFT_X);
-    double y = driveStick.getRawAxis(JOYSTICK_LEFT_Y);
-    double z = driveStick.getRawAxis(JOYSTICK_RIGHT_X);
-
-    drivetrain.drive(x, y, z);
+    if (Trigger.getRawAxis(Controller.JOYSTICK_RIGHT_TRIGGER) > .8) {
+      Shoot.spinShooter();
+    } else {
+      Shoot.stopShooter();
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    Shoot.stopShooter();
   }
 
   // Returns true when the command should end.
