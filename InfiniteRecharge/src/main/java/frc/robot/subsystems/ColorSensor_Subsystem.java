@@ -11,12 +11,15 @@ import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorSensorV3;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.Colors;
+import static frc.robot.Constants.Encoders.*;
 
-public class ColorSensor_Subsytem extends SubsystemBase {
+public class ColorSensor_Subsystem extends SubsystemBase {
   /**
    * Creates a new ColorSensor_Subystem.
    */
@@ -26,7 +29,20 @@ public class ColorSensor_Subsytem extends SubsystemBase {
   private final ColorMatch colorMatcher;
   private final Color red, green, blue, yellow;
 
-  public ColorSensor_Subsytem() {
+  private Encoder colorWheelEncoder;
+  private Victor colorWheelMotor;
+
+  public ColorSensor_Subsystem() {
+    // Set the encoder for the color wheel's motor
+    colorWheelEncoder = new Encoder(MOTOR_FRONT_RIGHT_ENCODER_A, MOTOR_FRONT_RIGHT_ENCODER_B);
+
+    // Set the encoder's distance per pulse
+    // See explanation in drivetrain for in depth reasoning for variables/parameters
+    colorWheelEncoder.setDistancePerPulse(SMALL_MOTOR_DIST_PER_PULSE);
+
+    // Set the motor that will be used to move the color wheel
+    colorWheelMotor = new Victor(9);
+
     // Set i2c port to the roborio port
     i2cPort = I2C.Port.kOnboard;
 
@@ -66,6 +82,19 @@ public class ColorSensor_Subsytem extends SubsystemBase {
     }
 
     return color;
+  }
+
+  public void spinMotor(double speed) {
+    colorWheelMotor.set(speed);
+    System.out.println(colorWheelEncoder.getDistance());
+  }
+
+  public Encoder getEncoder() {
+    return colorWheelEncoder;
+  }
+
+  public Victor getMotor() {
+    return colorWheelMotor;
   }
 
   @Override

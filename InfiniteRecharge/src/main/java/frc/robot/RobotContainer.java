@@ -10,12 +10,16 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.robot.commands.ColorSensor_Command;
 import frc.robot.commands.Drive_Command;
-import frc.robot.subsystems.ColorSensor_Subsytem;
+import frc.robot.commands.PositionControl_Command;
+import frc.robot.commands.PositionControl_CommandGroup;
+import frc.robot.subsystems.ColorSensor_Subsystem;
 import frc.robot.subsystems.Drivetrain_Subsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import static frc.robot.Constants.PIDVals.*;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -27,8 +31,8 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final Drivetrain_Subsystem drivetrain = new Drivetrain_Subsystem();
 
-  private final ColorSensor_Subsytem colorSensor = new ColorSensor_Subsytem();
-  private final ColorSensor_Command colorSensorCommand = new ColorSensor_Command(colorSensor);
+  private final ColorSensor_Subsystem colorSensor = new ColorSensor_Subsystem();
+  private final PositionControl_Command colorSensorCommand = new PositionControl_Command(colorSensor, SETPOINT+colorSensor.getEncoder().getDistance());
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -54,7 +58,9 @@ public class RobotContainer {
     ));
 
     JoystickButton colorButton = new JoystickButton(driveStick, Constants.Controller.JOYSTICK_A_BUTTON);
+    
     colorButton.whileHeld(colorSensorCommand);
+    
   }
 
   // Have a public getter so we can use this command in teleop periodic

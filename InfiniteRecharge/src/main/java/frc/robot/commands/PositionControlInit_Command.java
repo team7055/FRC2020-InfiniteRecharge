@@ -7,35 +7,31 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ColorSensor_Subsystem;
 
-public class ColorSensor_Command extends CommandBase {
+public class PositionControlInit_Command extends CommandBase {
   /**
-   * Creates a new ColorSensor_Command.
+   * Creates a new PositionControlInit_Command.
    */
-  
   private ColorSensor_Subsystem colorSensor;
-  public ColorSensor_Command(ColorSensor_Subsystem colorSubsystem) {
+
+  public PositionControlInit_Command(ColorSensor_Subsystem subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
-    colorSensor = colorSubsystem;
-    addRequirements(colorSensor);
+    colorSensor = subsystem;
+
+    addRequirements(subsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    colorSensor.getEncoder().reset();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // Get the color from the sensor
-    String color = colorSensor.getColor();
-
-                                  // Debug
-                                  System.out.println(color);
   }
 
   // Called once the command ends or is interrupted.
@@ -46,6 +42,6 @@ public class ColorSensor_Command extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }
