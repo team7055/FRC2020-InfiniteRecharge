@@ -12,8 +12,10 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ColorSensor_Command;
 import frc.robot.commands.Drive_Command;
+import frc.robot.commands.Shooter_Command;
 import frc.robot.subsystems.ColorSensor_Subsytem;
 import frc.robot.subsystems.Drivetrain_Subsystem;
+import frc.robot.subsystems.Shooter_Subsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
@@ -28,7 +30,8 @@ public class RobotContainer {
   private final Drivetrain_Subsystem drivetrain = new Drivetrain_Subsystem();
 
   private final ColorSensor_Subsytem colorSensor = new ColorSensor_Subsytem();
-  private final ColorSensor_Command colorSensorCommand = new ColorSensor_Command(colorSensor);
+  
+  private final Shooter_Subsystem shooter = new Shooter_Subsystem();
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -53,8 +56,10 @@ public class RobotContainer {
       driveStick
     ));
 
-    JoystickButton colorButton = new JoystickButton(driveStick, Constants.Controller.JOYSTICK_A_BUTTON);
-    colorButton.whileHeld(colorSensorCommand);
+    shooter.setDefaultCommand(new Shooter_Command(
+      shooter, 
+      driveStick
+    ));
   }
 
   // Have a public getter so we can use this command in teleop periodic
