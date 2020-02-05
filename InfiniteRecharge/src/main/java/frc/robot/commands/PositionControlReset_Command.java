@@ -10,13 +10,13 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ColorSensor_Subsystem;
 
-public class PositionControlInit_Command extends CommandBase {
+public class PositionControlReset_Command extends CommandBase {
   /**
    * Creates a new PositionControlInit_Command.
    */
   private ColorSensor_Subsystem colorSensor;
 
-  public PositionControlInit_Command(ColorSensor_Subsystem subsystem) {
+  public PositionControlReset_Command(ColorSensor_Subsystem subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     colorSensor = subsystem;
 

@@ -32,7 +32,7 @@ public final class Constants {
 
     // Encoders for motors
     public final class Encoders {
-        public static final double SMALL_MOTOR_DIST_PER_PULSE = (0.5 * Math.PI) / 2048;
+        public static final double SMALL_MOTOR_DIST_PER_PULSE = ((4 * Math.PI) * .75) / 2048;
 
         public static final int MOTOR_FRONT_RIGHT_ENCODER_A = 0;
         public static final int MOTOR_FRONT_RIGHT_ENCODER_B = 1;
@@ -40,10 +40,10 @@ public final class Constants {
 
     public final class PIDVals{
         public static final double TOLERANCE = 0.1;
-        public static final double POSITION_CONTROL_P = 0.15;
-        public static final double POSITION_CONTROL_I = 0.065;
+        public static final double POSITION_CONTROL_P = 0.1;
+        public static final double POSITION_CONTROL_I = 0.005;
         public static final double POSITION_CONTROL_D = 0.005;
-        public static final double SETPOINT = 12.0;
+        public static final double SETPOINT = 100.0;
     }
 
     // Ports for various joystick axes and buttons

@@ -33,24 +33,16 @@ public class PositionControl_Command extends PIDCommand {
         // This uses the output
         output -> {
           // Use the output here
-          spinner.spinMotor(-1 * output);
+          spinner.spinMotor(-0.5 * output);
         });
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
 
-    this.spinner = spinner;
-    getController().setTolerance(TOLERANCE);
-    this.spinner.getEncoder().reset();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (getController().atSetpoint()){
-      spinner.getEncoder().reset();
-      return true;
-    }else{
-      return false;
-    }
+    return getController().atSetpoint();
   }
 }

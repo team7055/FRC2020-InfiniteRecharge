@@ -13,8 +13,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.robot.commands.ColorSensor_Command;
 import frc.robot.commands.Drive_Command;
+import frc.robot.commands.PositionControlReset_Command;
 import frc.robot.commands.PositionControl_Command;
-import frc.robot.commands.PositionControl_CommandGroup;
 import frc.robot.subsystems.ColorSensor_Subsystem;
 import frc.robot.subsystems.Drivetrain_Subsystem;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -32,7 +32,8 @@ public class RobotContainer {
   private final Drivetrain_Subsystem drivetrain = new Drivetrain_Subsystem();
 
   private final ColorSensor_Subsystem colorSensor = new ColorSensor_Subsystem();
-  private final PositionControl_Command colorSensorCommand = new PositionControl_Command(colorSensor, SETPOINT+colorSensor.getEncoder().getDistance());
+  private final PositionControl_Command positionControl = new PositionControl_Command(colorSensor, SETPOINT);
+  private final PositionControlReset_Command positionControlReset = new PositionControlReset_Command(colorSensor);
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -59,7 +60,8 @@ public class RobotContainer {
 
     JoystickButton colorButton = new JoystickButton(driveStick, Constants.Controller.JOYSTICK_A_BUTTON);
     
-    colorButton.whileHeld(colorSensorCommand);
+    colorButton.whileHeld(positionControl);
+    colorButton.whenInactive(positionControlReset);
     
   }
 
