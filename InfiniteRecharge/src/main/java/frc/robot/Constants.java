@@ -40,8 +40,8 @@ public final class Constants {
 
     public final class PIDVals{
         public static final double TOLERANCE = 0.1;
-        public static final double POSITION_CONTROL_P = 0.1;
-        public static final double POSITION_CONTROL_I = 0.005;
+        public static final double POSITION_CONTROL_P = 0.03;
+        public static final double POSITION_CONTROL_I = 0.0005;
         public static final double POSITION_CONTROL_D = 0.005;
         public static final double SETPOINT = 100.0;
     }
