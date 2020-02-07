@@ -12,9 +12,11 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ColorSensor_Command;
 import frc.robot.commands.Drive_Command;
+import frc.robot.commands.IntakeMotor_Command;
 import frc.robot.commands.Shooter_Command;
 import frc.robot.subsystems.ColorSensor_Subsytem;
 import frc.robot.subsystems.Drivetrain_Subsystem;
+import frc.robot.subsystems.Intake_Subsystem;
 import frc.robot.subsystems.Shooter_Subsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -33,6 +35,7 @@ public class RobotContainer {
   
   private final Shooter_Subsystem shooter = new Shooter_Subsystem();
 
+  private Intake_Subsystem intake = new Intake_Subsystem();
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
@@ -50,16 +53,16 @@ public class RobotContainer {
   private void configureButtonBindings() {
 
     Joystick driveStick = new Joystick(0);
-
+  JoystickButton intakeButton = new JoystickButton(driveStick, 2);
     drivetrain.setDefaultCommand(new Drive_Command(
       drivetrain,
       driveStick
     ));
 
-    shooter.setDefaultCommand(new Shooter_Command(
-      shooter, 
-      driveStick
+    shooter.setDefaultCommand(new Shooter_Command(shooter,  driveStick
     ));
+    intakeButton.whileHeld(new IntakeMotor_Command(intake));
+
   }
 
   // Have a public getter so we can use this command in teleop periodic
