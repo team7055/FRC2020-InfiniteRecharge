@@ -86,7 +86,6 @@ public class ColorSensor_Subsystem extends SubsystemBase {
 
   public void spinMotor(double speed) {
     colorWheelMotor.set(speed);
-    System.out.println(colorWheelEncoder.getDistance());
   }
 
   public Encoder getEncoder() {

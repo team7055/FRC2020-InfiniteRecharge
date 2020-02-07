@@ -40,10 +40,10 @@ public final class Constants {
 
     public final class PIDVals{
         public static final double TOLERANCE = 0.1;
-        public static final double POSITION_CONTROL_P = 0.03;
-        public static final double POSITION_CONTROL_I = 0.0005;
+        public static final double POSITION_CONTROL_P = 0.003100;
+        public static final double POSITION_CONTROL_I = 0.000070;
         public static final double POSITION_CONTROL_D = 0.005;
-        public static final double SETPOINT = 100.0;
+        public static final double SETPOINT = Math.PI * 32 * 4;
     }
 
     // Ports for various joystick axes and buttons
