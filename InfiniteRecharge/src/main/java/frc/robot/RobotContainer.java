@@ -23,6 +23,7 @@ import frc.robot.subsystems.ColorSensor_Subsystem;
 import frc.robot.commands.Shooter_Command;
 import frc.robot.subsystems.Drivetrain_Subsystem;
 import frc.robot.subsystems.Shooter_Subsystem;
+import frc.robot.Constants.Colors.Colour;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import static frc.robot.Constants.PIDVals.*;
@@ -44,12 +45,18 @@ public class RobotContainer {
   private final PositionControlReset_Command positionControlReset = new PositionControlReset_Command(colorSensor);
   
   private final Shooter_Subsystem shooter = new Shooter_Subsystem();
+  // Testing!!
+  // Seeing if it is okay to create a new command for the button
+  private final ColorSensor_Command colorSensorCommand;
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
-  public RobotContainer() {
+  public RobotContainer(Colour target) {
+    colorSensorCommand = new ColorSensor_Command(colorSensor, target);
+
     // Configure the button bindings
+    // Pass in the target color to bindings so we can use it in our command
     configureButtonBindings();
   }
 
