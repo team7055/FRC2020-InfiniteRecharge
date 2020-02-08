@@ -11,6 +11,7 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -53,7 +54,9 @@ public class RobotContainer {
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer(Colour target) {
-    colorSensorCommand = new ColorSensor_Command(colorSensor, target);
+    colorSensorCommand = new ColorSensor_Command(colorSensor, Colour.Yellow);
+
+    CameraServer.getInstance().startAutomaticCapture();
 
     // Configure the button bindings
     // Pass in the target color to bindings so we can use it in our command
@@ -75,10 +78,14 @@ public class RobotContainer {
       driveStick
     ));
 
-    JoystickButton colorButton = new JoystickButton(driveStick, Constants.Controller.JOYSTICK_A_BUTTON);
+    JoystickButton rotationControlButton = new JoystickButton(driveStick, Constants.Controller.JOYSTICK_A_BUTTON);
     
-    colorButton.whileHeld(positionControl);
-    colorButton.whenInactive(positionControlReset);
+    rotationControlButton.whileHeld(positionControl);
+    rotationControlButton.whenInactive(positionControlReset);
+
+    JoystickButton positionControlButton = new JoystickButton(driveStick, 3);
+
+    positionControlButton.whileHeld(colorSensorCommand);
     
     shooter.setDefaultCommand(new Shooter_Command(
       shooter, 

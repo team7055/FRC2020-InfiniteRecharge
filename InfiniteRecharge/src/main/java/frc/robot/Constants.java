@@ -37,6 +37,7 @@ public final class Constants {
 
         public static final int MOTOR_FRONT_RIGHT_ENCODER_A = 0;
         public static final int MOTOR_FRONT_RIGHT_ENCODER_B = 1;
+        public static final double COLOR_WHEEL_ARC_LENGTH = (Math.PI * 32.0) / 8.0;
     }
 
     public final class PIDVals{

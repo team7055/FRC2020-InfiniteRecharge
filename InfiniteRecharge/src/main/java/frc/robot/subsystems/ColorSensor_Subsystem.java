@@ -42,7 +42,7 @@ public class ColorSensor_Subsystem extends SubsystemBase {
     colorWheelEncoder.setDistancePerPulse(SMALL_MOTOR_DIST_PER_PULSE);
 
     // Set the motor that will be used to move the color wheel
-    colorWheelMotor = new Victor(9);
+    colorWheelMotor = new Victor(4);
 
     // Set i2c port to the roborio port
     i2cPort = I2C.Port.kOnboard;
@@ -93,6 +93,11 @@ public class ColorSensor_Subsystem extends SubsystemBase {
 
     // Return the color that was matched
     return color;
+  }
+
+  // takes in the target color and returns the setpoint needed to get to that color
+  public double numArcLenghtsNeeded(Colour targetColor, Colour currentColor) {
+    return 0.0;
   }
 
   public void spinMotor(double speed) {

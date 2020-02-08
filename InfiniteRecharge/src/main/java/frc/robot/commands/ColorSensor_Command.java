@@ -34,7 +34,7 @@ public class ColorSensor_Command extends CommandBase {
     this.targetColor = targetColor;
 
     // The wheel that is used to manipulate the color wheel
-    colorMotor = new Victor(Motors.WHEEL_MOTOR);
+    colorMotor = colorSensor.getMotor();
 
     addRequirements(colorSensor);
   }
@@ -50,7 +50,7 @@ public class ColorSensor_Command extends CommandBase {
     // This execute will only run while the isFinished is false
     // This means it runs while the current color is not the target
     // Thus, we want to move the motor every time this runs
-    colorMotor.set(0.6);
+    colorMotor.set(0.1);
   }
 
   // Called once the command ends or is interrupted.
@@ -65,6 +65,10 @@ public class ColorSensor_Command extends CommandBase {
 
     // The wheel is in the correct position when the current color from the sensor is equal
     // to the target color
-    return colorSensor.getColor() == targetColor;
+    if (colorSensor.getColor() == targetColor) {
+      colorMotor.set(0.0);
+      return true;
+    } else
+      return false;
   }
 }
