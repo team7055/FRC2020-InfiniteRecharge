@@ -34,7 +34,7 @@ public class Robot extends TimedRobot {
     // ******************** TEST CODE!!! ***************************
     // In Robot, we will use FMS to assign the targetColor to the value given by FMS
     // For now, we manually set the color
-    targetColor = Colour.Blue;
+    targetColor = Colour.Yellow;
 
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.

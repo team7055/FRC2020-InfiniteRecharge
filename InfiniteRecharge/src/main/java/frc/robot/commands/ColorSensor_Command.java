@@ -50,7 +50,7 @@ public class ColorSensor_Command extends CommandBase {
     // This execute will only run while the isFinished is false
     // This means it runs while the current color is not the target
     // Thus, we want to move the motor every time this runs
-    colorMotor.set(0.1);
+    colorMotor.set(0.15);
   }
 
   // Called once the command ends or is interrupted.

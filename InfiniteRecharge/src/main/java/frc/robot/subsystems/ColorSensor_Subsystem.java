@@ -95,9 +95,22 @@ public class ColorSensor_Subsystem extends SubsystemBase {
     return color;
   }
 
-  // takes in the target color and returns the setpoint needed to get to that color
-  public double numArcLenghtsNeeded(Colour targetColor, Colour currentColor) {
-    return 0.0;
+  // takes in the target color and returns the ActualTarget
+  public Colour calcActualTarget(Colour targetColor) {
+    switch(targetColor) {
+      case Yellow:
+        return Colour.Green;
+      case Green:
+        return Colour.Yellow;
+      case Red:
+        return Colour.Blue;
+      case Blue:
+        return Colour.Red;
+      case Unknown:
+        return Colour.Unknown;
+    }
+
+    return Colour.Unknown;
   }
 
   public void spinMotor(double speed) {

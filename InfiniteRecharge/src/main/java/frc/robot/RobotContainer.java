@@ -54,7 +54,7 @@ public class RobotContainer {
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer(Colour target) {
-    colorSensorCommand = new ColorSensor_Command(colorSensor, Colour.Yellow);
+    colorSensorCommand = new ColorSensor_Command(colorSensor, colorSensor.calcActualTarget(target));
 
     CameraServer.getInstance().startAutomaticCapture();
 
