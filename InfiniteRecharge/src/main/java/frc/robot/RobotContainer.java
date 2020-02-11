@@ -18,11 +18,13 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.robot.commands.ColorSensor_Command;
 import frc.robot.commands.Drive_Command;
+import frc.robot.commands.Elevator_Command;
 import frc.robot.commands.PositionControlReset_Command;
 import frc.robot.commands.PositionControl_Command;
 import frc.robot.subsystems.ColorSensor_Subsystem;
 import frc.robot.commands.Shooter_Command;
 import frc.robot.subsystems.Drivetrain_Subsystem;
+import frc.robot.subsystems.Elevator_subsystem;
 import frc.robot.subsystems.Shooter_Subsystem;
 import frc.robot.Constants.Colors.Colour;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -46,6 +48,8 @@ public class RobotContainer {
   private final PositionControlReset_Command positionControlReset = new PositionControlReset_Command(colorSensor);
   
   private final Shooter_Subsystem shooter = new Shooter_Subsystem();
+
+  private final Elevator_subsystem elevator = new Elevator_subsystem();
   // Testing!!
   // Seeing if it is okay to create a new command for the button
   private final ColorSensor_Command colorSensorCommand;
@@ -78,6 +82,7 @@ public class RobotContainer {
       driveStick
     ));
 
+    elevator.setDefaultCommand(new Elevator_Command(elevator, driveStick));
     JoystickButton rotationControlButton = new JoystickButton(driveStick, Constants.Controller.JOYSTICK_A_BUTTON);
     
     rotationControlButton.whileHeld(positionControl);
