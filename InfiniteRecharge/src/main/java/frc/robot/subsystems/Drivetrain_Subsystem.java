@@ -10,9 +10,19 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.geometry.Translation2d;
+import edu.wpi.first.wpilibj.kinematics.MecanumDriveKinematics;
+import edu.wpi.first.wpilibj.kinematics.MecanumDriveOdometry;
+import edu.wpi.first.wpilibj.kinematics.MecanumDriveWheelSpeeds;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.Motors.*;
+
+import com.kauailabs.navx.frc.AHRS;
+
 import static frc.robot.Constants.Encoders.*;
 
 public class Drivetrain_Subsystem extends SubsystemBase {
@@ -24,11 +34,15 @@ public class Drivetrain_Subsystem extends SubsystemBase {
   private Talon rearRight;
   private Talon rearLeft;
 
-  Encoder frontRightEncoder;
+  private Encoder frontRightEncoder, frontLeftEncoder, 
+  backRightEncoder, backLeftEncoder;
 
   private MecanumDrive drivetrain;
 
-  Victor test;
+  private AHRS gyro;
+  private MecanumDriveOdometry odometry;
+  private MecanumDriveKinematics kinematics;
+  private Pose2d pose;
   
   public Drivetrain_Subsystem() {
     // Initialize motors with ports from Constants.java
@@ -37,7 +51,25 @@ public class Drivetrain_Subsystem extends SubsystemBase {
     rearRight = new Talon(MOTOR_REAR_RIGHT);
     rearLeft = new Talon(MOTOR_REAR_LEFT);
 
-    //test = new Victor(9);
+    // Initialize the locations of wheels relative to robot center
+    Translation2d frontLeftLocation = new Translation2d(0.254, 0.254);
+    Translation2d frontRightLocation = new Translation2d(0.254, -0.254);
+    Translation2d backLeftLocation = new Translation2d(-0.254, 0.254);
+    Translation2d backRightLocation = new Translation2d(-0.254, -0.254);
+
+    // create the kinematics class with the locations
+    kinematics = new MecanumDriveKinematics(
+      frontLeftLocation, frontRightLocation, backLeftLocation, backRightLocation
+    );
+
+    // initialize gyroscope
+    gyro = new AHRS(Port.kMXP);
+
+    // create rotation2d object with the gyroscope heading
+    Rotation2d heading = new Rotation2d(-gyro.getAngle());
+
+    // create odometry
+    odometry = new MecanumDriveOdometry(kinematics, heading);
 
     // Initialize encoders on each drive motor
     ///frontRightEncoder
@@ -60,12 +92,17 @@ public class Drivetrain_Subsystem extends SubsystemBase {
     The pulses per rev can be found in the datasheet of the encoder. Which in this case is the REV 
     Through-Bore encoder. 
 
-     */
+    */
 
-     double diameterOfShaft = 0.5;
-     int pulsesPerRev = 2048;
+    double diameterOfShaft = 0.5;
+    int pulsesPerRev = 2048;
 
-     //frontRightEncoder.setDistancePerPulse((diameterOfShaft * Math.PI) / pulsesPerRev);
+    final double DIST_PER_PULSE = (diameterOfShaft * Math.PI) / pulsesPerRev;
+
+    frontRightEncoder.setDistancePerPulse(DIST_PER_PULSE);
+    frontLeftEncoder.setDistancePerPulse(DIST_PER_PULSE);
+    backRightEncoder.setDistancePerPulse(DIST_PER_PULSE);
+    backLeftEncoder.setDistancePerPulse(DIST_PER_PULSE);
 
     // Initialize drive with motors
     drivetrain = new MecanumDrive(frontLeft, rearLeft, frontRight, rearRight);
@@ -78,8 +115,44 @@ public class Drivetrain_Subsystem extends SubsystemBase {
   }
   // Shooter Inside Wheel Distance is 5 and 3 quarters inches
 
+  public MecanumDriveWheelSpeeds getWheelSpeeds() {
+    // Get my wheel speeds
+    MecanumDriveWheelSpeeds wheelSpeeds = new MecanumDriveWheelSpeeds(
+      frontLeftEncoder.getRate(), frontRightEncoder.getRate(),
+      backLeftEncoder.getRate(), backRightEncoder.getRate());
+
+    return wheelSpeeds;
+  }
+
+  public Rotation2d getHeading() {
+    // Get my gyro angle. We are negating the value because gyros return positive
+    // values as the robot turns clockwise. This is not standard convention that is
+    // used by the WPILib classes.
+    Rotation2d heading = Rotation2d.fromDegrees(-gyro.getAngle());
+
+    return heading;
+  }
+
+  public Pose2d getPose() {
+    return odometry.getPoseMeters();
+  }
+
+  public MecanumDriveKinematics getKinematics() {
+    return kinematics;
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    // Get my wheel speeds
+    MecanumDriveWheelSpeeds wheelSpeeds = getWheelSpeeds();
+
+    // Get my gyro angle. We are negating the value because gyros return positive
+    // values as the robot turns clockwise. This is not standard convention that is
+    // used by the WPILib classes.
+    Rotation2d heading = Rotation2d.fromDegrees(-gyro.getAngle());
+
+    // Update the pose
+    pose = odometry.update(heading, wheelSpeeds);
   }
 }
