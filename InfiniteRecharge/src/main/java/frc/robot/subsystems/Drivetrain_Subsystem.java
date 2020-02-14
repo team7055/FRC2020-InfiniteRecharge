@@ -112,6 +112,13 @@ public class Drivetrain_Subsystem extends SubsystemBase {
   }
   // Shooter Inside Wheel Distance is 5 and 3 quarters inches
 
+  public void driveForward(double speed) {
+    frontLeft.set(speed);
+    frontRight.set(speed);
+    rearLeft.set(speed);
+    rearRight.set(speed);
+  }
+
   public MecanumDriveWheelSpeeds getWheelSpeeds() {
     // Get my wheel speeds
     MecanumDriveWheelSpeeds wheelSpeeds = new MecanumDriveWheelSpeeds(
@@ -128,6 +135,27 @@ public class Drivetrain_Subsystem extends SubsystemBase {
     Rotation2d heading = Rotation2d.fromDegrees(-gyro.getAngle());
 
     return heading;
+  }
+
+  // @param whichEncoder >= 0 & <= 3
+  // used to select which encoder to get
+  // 0 -> front left encoder,
+  // 1 -> front right encoder,
+  // 2 -> rear left encoder,
+  // 3 -> rear right encoder
+  public Encoder getEncoder(int whichEncoder) {
+    switch (whichEncoder) {
+      case 0:
+        return frontLeftEncoder;
+      case 1:
+        return frontRightEncoder;
+      case 2:
+        return rearLeftEncoder;
+      case 3:
+        return rearRightEncoder;
+      default:
+        return frontLeftEncoder;
+    }
   }
 
   public Pose2d getPose() {
