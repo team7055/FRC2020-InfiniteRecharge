@@ -33,11 +33,25 @@ public final class Constants {
 
     // Encoders for motors
     public final class Encoders {
+        // Distances per pulse for various motors/wheels
         public static final double SMALL_MOTOR_DIST_PER_PULSE = ((4 * Math.PI) * .75) / 2048;
         public static final double SMALL_MOTOR_DIST_PER_PULSE_METERS = ((0.105 * Math.PI) * .75) / 2048;
+        public static final double DRIVE_MOTOR_DIST_PER_PULSE = ((7.75 * Math.PI) / 2048);
+        public static final double DRIVE_MOTOR_DIST_PER_PULSE_METRIC = (20.0 * Math.PI) / 2048;
 
-        public static final int MOTOR_FRONT_RIGHT_ENCODER_A = 0;
-        public static final int MOTOR_FRONT_RIGHT_ENCODER_B = 1;
+        // Encoder ports
+        public static final int COLOR_WHEEL_ENCODER_A = 0;
+        public static final int COLOR_WHEEL_ENCODER_B = 1;
+        public static final int DRIVE_FRONT_LEFT_ENCODER_A = 2;
+        public static final int DRIVE_FRONT_LEFT_ENCODER_B = 3;
+        public static final int DRIVE_FRONT_RIGHT_ENCODER_A = 4;
+        public static final int DRIVE_FRONT_RIGHT_ENCODER_B = 5;
+        public static final int DRIVE_REAR_LEFT_ENCODER_A = 6;
+        public static final int DRIVE_REAR_LEFT_ENCODER_B = 7;
+        public static final int DRIVE_REAR_RIGHT_ENCODER_A = 8;
+        public static final int DRIVE_REAR_RIGHT_ENCODER_B = 9;
+
+        // Arc length for each color on color wheel
         public static final double COLOR_WHEEL_ARC_LENGTH = (Math.PI * 32.0) / 8.0;
     }
 

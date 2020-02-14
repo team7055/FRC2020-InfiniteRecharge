@@ -35,7 +35,7 @@ public class Drivetrain_Subsystem extends SubsystemBase {
   private Talon rearLeft;
 
   private Encoder frontRightEncoder, frontLeftEncoder, 
-  backRightEncoder, backLeftEncoder;
+  rearRightEncoder, rearLeftEncoder;
 
   private MecanumDrive drivetrain;
 
@@ -72,8 +72,10 @@ public class Drivetrain_Subsystem extends SubsystemBase {
     odometry = new MecanumDriveOdometry(kinematics, heading);
 
     // Initialize encoders on each drive motor
-    ///frontRightEncoder
-     //= new Encoder(MOTOR_FRONT_RIGHT_ENCODER_A, MOTOR_FRONT_RIGHT_ENCODER_B);
+    frontLeftEncoder = new Encoder(DRIVE_FRONT_LEFT_ENCODER_A, DRIVE_FRONT_LEFT_ENCODER_B);
+    frontRightEncoder = new Encoder(DRIVE_FRONT_RIGHT_ENCODER_A, DRIVE_FRONT_RIGHT_ENCODER_B);
+    rearLeftEncoder = new Encoder(DRIVE_REAR_LEFT_ENCODER_A, DRIVE_REAR_LEFT_ENCODER_B);
+    rearRightEncoder = new Encoder(DRIVE_REAR_RIGHT_ENCODER_A, DRIVE_REAR_RIGHT_ENCODER_B);
 
      /*
      First of the all the gearbox doesn't matter if the encoder comes after the gearbox.
@@ -94,15 +96,10 @@ public class Drivetrain_Subsystem extends SubsystemBase {
 
     */
 
-    double diameterOfShaft = 0.5;
-    int pulsesPerRev = 2048;
-
-    final double DIST_PER_PULSE = (diameterOfShaft * Math.PI) / pulsesPerRev;
-
-    frontRightEncoder.setDistancePerPulse(DIST_PER_PULSE);
-    frontLeftEncoder.setDistancePerPulse(DIST_PER_PULSE);
-    backRightEncoder.setDistancePerPulse(DIST_PER_PULSE);
-    backLeftEncoder.setDistancePerPulse(DIST_PER_PULSE);
+    frontRightEncoder.setDistancePerPulse(DRIVE_MOTOR_DIST_PER_PULSE);
+    frontLeftEncoder.setDistancePerPulse(DRIVE_MOTOR_DIST_PER_PULSE);
+    rearRightEncoder.setDistancePerPulse(DRIVE_MOTOR_DIST_PER_PULSE);
+    rearLeftEncoder.setDistancePerPulse(DRIVE_MOTOR_DIST_PER_PULSE);
 
     // Initialize drive with motors
     drivetrain = new MecanumDrive(frontLeft, rearLeft, frontRight, rearRight);
@@ -119,7 +116,7 @@ public class Drivetrain_Subsystem extends SubsystemBase {
     // Get my wheel speeds
     MecanumDriveWheelSpeeds wheelSpeeds = new MecanumDriveWheelSpeeds(
       frontLeftEncoder.getRate(), frontRightEncoder.getRate(),
-      backLeftEncoder.getRate(), backRightEncoder.getRate());
+      rearLeftEncoder.getRate(), rearRightEncoder.getRate());
 
     return wheelSpeeds;
   }
