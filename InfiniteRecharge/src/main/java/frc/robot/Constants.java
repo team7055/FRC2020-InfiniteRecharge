@@ -33,7 +33,9 @@ public final class Constants {
 
     // Encoders for motors
     public final class Encoders {
-        public static final double SMALL_MOTOR_DIST_PER_PULSE = ((4 * Math.PI) * .75) / 2048;
+        public static final double SMALL_MOTOR_DIST_PER_PULSE = ((4 * Math.PI) * .75) / 2048; // .75 is for  gear ratio
+        public static final double DRIVE_MOTOR_DIST_PER_PULSE = ((7.75 * Math.PI) / 2048);
+        public static final double DRIVE_MOTOR_DIST_PER_PULSE_METRIC = (20.0 * Math.PI) / 2048;
 
         public static final int MOTOR_FRONT_RIGHT_ENCODER_A = 0;
         public static final int MOTOR_FRONT_RIGHT_ENCODER_B = 1;
