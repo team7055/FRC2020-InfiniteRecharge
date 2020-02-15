@@ -64,6 +64,7 @@ public class Drivetrain_Subsystem extends SubsystemBase {
 
     // initialize gyroscope
     gyro = new AHRS(Port.kMXP);
+    gyro.reset();
 
     // create rotation2d object with the gyroscope heading
     Rotation2d heading = new Rotation2d(-gyro.getAngle());
@@ -108,16 +109,10 @@ public class Drivetrain_Subsystem extends SubsystemBase {
   public void drive(double x, double y, double z) {
     drivetrain.feedWatchdog();
     drivetrain.driveCartesian(y, x, z);
+    System.out.println(Math.floor(gyro.getAngle()));
     //System.out.println(x + " " + y + " " + z);
   }
   // Shooter Inside Wheel Distance is 5 and 3 quarters inches
-
-  public void driveForward(double speed) {
-    frontLeft.set(speed);
-    frontRight.set(speed);
-    rearLeft.set(speed);
-    rearRight.set(speed);
-  }
 
   public MecanumDriveWheelSpeeds getWheelSpeeds() {
     // Get my wheel speeds
@@ -164,6 +159,10 @@ public class Drivetrain_Subsystem extends SubsystemBase {
 
   public MecanumDriveKinematics getKinematics() {
     return kinematics;
+  }
+
+  public double getGyroAngle(){
+    return gyro.getAngle();
   }
 
   @Override

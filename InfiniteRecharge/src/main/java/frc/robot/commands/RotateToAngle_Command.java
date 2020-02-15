@@ -14,22 +14,22 @@ import frc.robot.subsystems.Drivetrain_Subsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class DriveStraight_Command extends PIDCommand {
+public class RotateToAngle_Command extends PIDCommand {
   /**
-   * Creates a new DriveForwardAuto_Command.
+   * Creates a new RotateToAngle_Command.
    */
-  public DriveStraight_Command(Drivetrain_Subsystem drive, double setPoint) {
+  public RotateToAngle_Command(Drivetrain_Subsystem drivetrain, double setPoint) {
     super(
         // The controller that the command will use
         new PIDController(0, 0, 0),
         // This should return the measurement
-        () -> drive.getEncoder(0).getDistance(),
+        () -> drivetrain.getGyroAngle(),
         // This should return the setpoint (can also be a constant)
         () -> setPoint,
         // This uses the output
         output -> {
           // Use the output here
-          drive.drive(0, output, 0);
+          drivetrain.drive(0, 0, output);
         });
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
