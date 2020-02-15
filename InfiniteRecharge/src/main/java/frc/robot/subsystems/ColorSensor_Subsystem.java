@@ -11,6 +11,7 @@ import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorSensorV3;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Victor;
@@ -29,6 +30,7 @@ public class ColorSensor_Subsystem extends SubsystemBase {
   private final ColorSensorV3 colorSensor;
   private final ColorMatch colorMatcher;
   private final Color red, green, blue, yellow;
+  private Colour gameColor;
 
   private Encoder colorWheelEncoder;
   private Victor colorWheelMotor;
@@ -56,6 +58,9 @@ public class ColorSensor_Subsystem extends SubsystemBase {
     green = ColorMatch.makeColor(Colors.Green.RED, Colors.Green.GREEN, Colors.Green.BLUE);
     blue = ColorMatch.makeColor(Colors.Blue.RED, Colors.Blue.GREEN, Colors.Blue.BLUE);
     yellow = ColorMatch.makeColor(Colors.Yellow.RED, Colors.Yellow.GREEN, Colors.Yellow.BLUE);
+
+    // Initalizes Game Color as unknown because we don't know the color immediately.
+    gameColor = Colour.Unknown;
 
     // Initialize the color matcher, and add our targets to it
     colorMatcher = new ColorMatch();
@@ -125,8 +130,33 @@ public class ColorSensor_Subsystem extends SubsystemBase {
     return colorWheelMotor;
   }
 
+  public Colour getTarget(){
+    return gameColor;
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    String gameData = DriverStation.getInstance().getGameSpecificMessage();
+    if(gameData.length() > 0){
+      switch (gameData.charAt(0))
+      {
+        case 'B' :
+          gameColor = calcActualTarget(Colour.Blue);
+          break;
+        case 'G' :
+          gameColor = calcActualTarget(Colour.Green);
+          break;
+        case 'R' :
+          gameColor = calcActualTarget(Colour.Red);
+          break;
+        case 'Y' :
+          gameColor = calcActualTarget(Colour.Yellow);
+          break;
+        default :
+          //This is corrupt data
+          break;
+      }
+    } 
   }
 }

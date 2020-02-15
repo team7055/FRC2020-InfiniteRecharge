@@ -65,7 +65,7 @@ public class ColorSensor_Command extends CommandBase {
 
     // The wheel is in the correct position when the current color from the sensor is equal
     // to the target color
-    if (colorSensor.getColor() == targetColor) {
+    if (colorSensor.getColor() == colorSensor.getTarget()){
       colorMotor.set(0.0);
       return true;
     } else
