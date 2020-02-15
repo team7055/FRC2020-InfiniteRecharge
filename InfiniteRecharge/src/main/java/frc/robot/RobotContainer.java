@@ -25,7 +25,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import frc.robot.commands.ColorSensor_Command;
-import frc.robot.commands.DriveForwardAuto_Command;
+import frc.robot.commands.DriveStraight_Command;
 import frc.robot.commands.Drive_Command;
 import frc.robot.commands.PositionControlReset_Command;
 import frc.robot.commands.PositionControl_Command;
@@ -62,7 +62,7 @@ public class RobotContainer {
 
   private final PositionControlReset_Command positionControlReset = new PositionControlReset_Command(colorSensor);
   
-  private final DriveForwardAuto_Command autoCommand = new DriveForwardAuto_Command(drivetrain);
+  private final DriveStraight_Command autoCommand = new DriveStraight_Command(drivetrain, 60);
 
   // Testing!!
   // Seeing if it is okay to create a new command for the button
