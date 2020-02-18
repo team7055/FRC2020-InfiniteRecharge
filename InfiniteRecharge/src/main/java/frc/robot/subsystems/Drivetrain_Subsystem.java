@@ -73,7 +73,7 @@ public class Drivetrain_Subsystem extends SubsystemBase {
 
   public void drive(double x, double y, double z) {
     drivetrain.feedWatchdog();
-    drivetrain.driveCartesian(y, x, z);
+    drivetrain.driveCartesian(x, y, z);
     //System.out.println(x + " " + y + " " + z);
   }
   // Shooter Inside Wheel Distance is 5 and 3 quarters inches
