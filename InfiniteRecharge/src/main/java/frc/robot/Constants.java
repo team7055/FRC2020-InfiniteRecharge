@@ -37,7 +37,7 @@ public final class Constants {
         public static final double SMALL_MOTOR_DIST_PER_PULSE = ((4 * Math.PI) * .75) / 2048;
         public static final double SMALL_MOTOR_DIST_PER_PULSE_METERS = ((0.105 * Math.PI) * .75) / 2048;
         public static final double DRIVE_MOTOR_DIST_PER_PULSE = ((7.75 * Math.PI) / 2048);
-        public static final double DRIVE_MOTOR_DIST_PER_PULSE_METRIC = (20.0 * Math.PI) / 2048;
+        public static final double DRIVE_MOTOR_DIST_PER_PULSE_METRIC = (0.2 * Math.PI) / 2048;
 
         // Encoder ports
         public static final int COLOR_WHEEL_ENCODER_A = 0;

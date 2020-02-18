@@ -18,12 +18,14 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
+import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile.Constraints;
 import frc.robot.commands.ColorSensor_Command;
 import frc.robot.commands.DriveStraight_Command;
 import frc.robot.commands.Drive_Command;
@@ -128,7 +130,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     String trajectoryJSON = "paths/YourPath.wpilib.json";
-    Trajectory trajectory;
+    Trajectory trajectory = null;
 
     try {
       Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
@@ -137,47 +139,18 @@ public class RobotContainer {
       DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
     }
 
-    //MecanumControllerCommand controller = new MecanumControllerCommand();
-
-    // RamseteCommand ramsete = new RamseteCommand(
-    //   trajectory, 
-    //   drivetrain::getPose,
-    //   new RamseteController(2.0, 0.7), // change constants later
-    //   new SimpleMotorFeedforward(0.0003, 12.0 / 5130.0),
-    //   drivetrain.getKinematics(),
-    //   drivetrain::getWheelSpeeds,
-    //   new PIDController(0.0, 0.0, 0.0), // add P term later
-    //   new PIDController(0.0, 0.0, 0.0),
-    //   );
-    /*
-    Arguments:
-    trajectory
-    pose -- odometry
-    controller
-    feedforward
-    kinematics
-    left/right controller
-    output volts
-    requirements
-
-    WPI Example:
-    RamseteCommand ramseteCommand = new RamseteCommand(
-        exampleTrajectory,
-        m_robotDrive::getPose,
-        new RamseteController(AutoConstants.kRamseteB, AutoConstants.kRamseteZeta),
-        new SimpleMotorFeedforward(DriveConstants.ksVolts,
-                                   DriveConstants.kvVoltSecondsPerMeter,
-                                   DriveConstants.kaVoltSecondsSquaredPerMeter),
-        DriveConstants.kDriveKinematics,
-        m_robotDrive::getWheelSpeeds,
-        new PIDController(DriveConstants.kPDriveVel, 0, 0),
-        new PIDController(DriveConstants.kPDriveVel, 0, 0),
-        // RamseteCommand passes volts to the callback
-        m_robotDrive::tankDriveVolts,
-        m_robotDrive
+    MecanumControllerCommand followPathCommand = new MecanumControllerCommand(
+      trajectory,
+      drivetrain::getPose,
+      drivetrain.getKinematics() ,
+      new PIDController(0.0, 0.0, 0.0),
+      new PIDController(0.0, 0.0, 0.0), 
+      new ProfiledPIDController(0.0, 0.0, 0.0, new Constraints(5.0,5.0)), 
+      5.0, 
+      drivetrain::drive, 
+      drivetrain
     );
-    */
-    
-    return null; // finish
+  
+    return followPathCommand;
   }
 }

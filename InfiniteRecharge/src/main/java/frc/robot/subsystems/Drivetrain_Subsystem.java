@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.SPI.Port;
@@ -34,6 +35,9 @@ public class Drivetrain_Subsystem extends SubsystemBase {
   private Talon rearRight;
   private Talon rearLeft;
 
+  private SpeedControllerGroup leftMotors;
+  private SpeedControllerGroup rightMotors;
+
   private Encoder frontRightEncoder, frontLeftEncoder, 
   rearRightEncoder, rearLeftEncoder;
 
@@ -50,6 +54,10 @@ public class Drivetrain_Subsystem extends SubsystemBase {
     frontLeft = new Talon(MOTOR_FRONT_LEFT);
     rearRight = new Talon(MOTOR_REAR_RIGHT);
     rearLeft = new Talon(MOTOR_REAR_LEFT);
+
+    // Initialize speed controller groups for trajectory tank drive
+    leftMotors = new SpeedControllerGroup(frontLeft, rearLeft);
+    rightMotors = new SpeedControllerGroup(frontRight, rearRight);
 
     // Initialize the locations of wheels relative to robot center
     Translation2d frontLeftLocation = new Translation2d(0.254, 0.254);
@@ -111,6 +119,16 @@ public class Drivetrain_Subsystem extends SubsystemBase {
     drivetrain.driveCartesian(y, x, z);
     System.out.println(Math.floor(gyro.getAngle()));
     //System.out.println(x + " " + y + " " + z);
+  }
+
+  public void drive(MecanumDriveWheelSpeeds speeds) {
+
+  }
+
+  public void tankDriveVolts(double leftVolts, double rightVolts) {
+    leftMotors.setVoltage(leftVolts);
+    rightMotors.setVoltage(-rightVolts);
+    drivetrain.feed();
   }
   // Shooter Inside Wheel Distance is 5 and 3 quarters inches
 
