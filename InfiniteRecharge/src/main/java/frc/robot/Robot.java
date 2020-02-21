@@ -20,6 +20,7 @@ import frc.robot.Constants.Colors.Colour;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
+  private Command driveStraightCommand;
 
   private RobotContainer m_robotContainer;
 
@@ -41,6 +42,9 @@ public class Robot extends TimedRobot {
     
     // Pass the targetColor into container
     m_robotContainer = new RobotContainer(targetColor);
+
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    driveStraightCommand = m_robotContainer.driveStraight();
   }
 
   /**
@@ -76,6 +80,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
+    // m_autonomousCommand.schedule(false);
+    // System.out.println(m_autonomousCommand.isScheduled());
+    driveStraightCommand.schedule(false);
   }
 
   /**
@@ -83,6 +90,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
+    CommandScheduler.getInstance().run();
   }
 
   @Override

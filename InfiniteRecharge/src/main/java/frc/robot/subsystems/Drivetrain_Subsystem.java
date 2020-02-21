@@ -60,10 +60,10 @@ public class Drivetrain_Subsystem extends SubsystemBase {
     rightMotors = new SpeedControllerGroup(frontRight, rearRight);
 
     // Initialize the locations of wheels relative to robot center
-    Translation2d frontLeftLocation = new Translation2d(0.254, 0.254);
-    Translation2d frontRightLocation = new Translation2d(0.254, -0.254);
-    Translation2d backLeftLocation = new Translation2d(-0.254, 0.254);
-    Translation2d backRightLocation = new Translation2d(-0.254, -0.254);
+    Translation2d frontLeftLocation = new Translation2d(-0.254, -0.254);
+    Translation2d frontRightLocation = new Translation2d(-0.254, 0.254);
+    Translation2d backLeftLocation = new Translation2d(0.254, -0.254);
+    Translation2d backRightLocation = new Translation2d(0.254, 0.254);
 
     // create the kinematics class with the locations
     kinematics = new MecanumDriveKinematics(
@@ -86,6 +86,11 @@ public class Drivetrain_Subsystem extends SubsystemBase {
     rearLeftEncoder = new Encoder(DRIVE_REAR_LEFT_ENCODER_A, DRIVE_REAR_LEFT_ENCODER_B);
     rearRightEncoder = new Encoder(DRIVE_REAR_RIGHT_ENCODER_A, DRIVE_REAR_RIGHT_ENCODER_B);
 
+    frontLeftEncoder.reset();
+    frontRightEncoder.reset();
+    rearLeftEncoder.reset();
+    rearRightEncoder.reset();
+
      /*
      First of the all the gearbox doesn't matter if the encoder comes after the gearbox.
      Second 0.5 is the diameter of the shaft and multiplying it by PI is the circumference of the shaft.
@@ -105,10 +110,10 @@ public class Drivetrain_Subsystem extends SubsystemBase {
 
     */
 
-    frontRightEncoder.setDistancePerPulse(DRIVE_MOTOR_DIST_PER_PULSE);
-    frontLeftEncoder.setDistancePerPulse(DRIVE_MOTOR_DIST_PER_PULSE);
-    rearRightEncoder.setDistancePerPulse(DRIVE_MOTOR_DIST_PER_PULSE);
-    rearLeftEncoder.setDistancePerPulse(DRIVE_MOTOR_DIST_PER_PULSE);
+    frontRightEncoder.setDistancePerPulse(DRIVE_MOTOR_DIST_PER_PULSE_METRIC);
+    frontLeftEncoder.setDistancePerPulse(DRIVE_MOTOR_DIST_PER_PULSE_METRIC);
+    rearRightEncoder.setDistancePerPulse(DRIVE_MOTOR_DIST_PER_PULSE_METRIC);
+    rearLeftEncoder.setDistancePerPulse(DRIVE_MOTOR_DIST_PER_PULSE_METRIC);
 
     // Initialize drive with motors
     drivetrain = new MecanumDrive(frontLeft, rearLeft, frontRight, rearRight);
@@ -117,12 +122,16 @@ public class Drivetrain_Subsystem extends SubsystemBase {
   public void drive(double x, double y, double z) {
     drivetrain.feedWatchdog();
     drivetrain.driveCartesian(x, -y, z);
-    System.out.println(Math.floor(gyro.getAngle()));
+    //System.out.println(Math.floor(gyro.getAngle()));
     //System.out.println(x + " " + y + " " + z);
   }
 
   public void drive(MecanumDriveWheelSpeeds speeds) {
-
+    frontLeft.set(10 * speeds.frontLeftMetersPerSecond);
+    frontRight.set(10 * speeds.frontRightMetersPerSecond);
+    rearLeft.set(-10 * speeds.rearLeftMetersPerSecond);
+    rearRight.set(-10 * speeds.rearRightMetersPerSecond);
+    drivetrain.feed();
   }
 
   public void tankDriveVolts(double leftVolts, double rightVolts) {

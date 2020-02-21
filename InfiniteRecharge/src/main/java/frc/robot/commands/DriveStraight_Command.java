@@ -21,7 +21,7 @@ public class DriveStraight_Command extends PIDCommand {
   public DriveStraight_Command(Drivetrain_Subsystem drive, double setPoint) {
     super(
         // The controller that the command will use
-        new PIDController(0, 0, 0),
+        new PIDController(1.0, 0, 0),
         // This should return the measurement
         () -> drive.getEncoder(0).getDistance(),
         // This should return the setpoint (can also be a constant)

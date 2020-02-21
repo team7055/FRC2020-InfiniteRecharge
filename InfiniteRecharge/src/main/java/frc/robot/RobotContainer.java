@@ -27,6 +27,7 @@ import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile.Constraints;
 import frc.robot.commands.ColorSensor_Command;
+import frc.robot.commands.DriveStraightTimed_Command;
 import frc.robot.commands.DriveStraight_Command;
 import frc.robot.commands.Drive_Command;
 import frc.robot.commands.PositionControlReset_Command;
@@ -129,7 +130,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    String trajectoryJSON = "paths/YourPath.wpilib.json";
+    String trajectoryJSON = "paths/Starting.wpilib.json";
     Trajectory trajectory = null;
 
     try {
@@ -143,14 +144,19 @@ public class RobotContainer {
       trajectory,
       drivetrain::getPose,
       drivetrain.getKinematics() ,
-      new PIDController(0.0, 0.0, 0.0),
-      new PIDController(0.0, 0.0, 0.0), 
-      new ProfiledPIDController(0.0, 0.0, 0.0, new Constraints(5.0,5.0)), 
-      5.0, 
+      new PIDController(0.000647, 0.0, 0.0),
+      new PIDController(0.000647, 0.0, 0.0), 
+      new ProfiledPIDController(0.000647, 0.0, 0.0, new Constraints(0.0508, 5.0)), 
+      0.0508, 
       drivetrain::drive, 
       drivetrain
     );
   
-    return followPathCommand  ;
+    //return followPathCommand;
+    return new DriveStraightTimed_Command(drivetrain, 5.0);
+  }
+  
+  public DriveStraightTimed_Command driveStraight() {
+    return new DriveStraightTimed_Command(drivetrain, 5.0);
   }
 }
