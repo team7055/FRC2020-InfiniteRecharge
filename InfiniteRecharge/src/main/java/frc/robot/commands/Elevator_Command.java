@@ -34,12 +34,12 @@ public class Elevator_Command extends CommandBase {
   @Override
   public void execute() {
     if (Trigger.getPOV() == 0) {
-      Elevator.startElevatorUp();
+      Elevator.startElevator();
     } else if (Trigger.getPOV() == 180 ) {
-      Elevator.startElevatorDown();
+      Elevator.startWinch();
     } else {
-      Elevator.stopElevatorUp();
-      Elevator.stopElevatorDown();
+      Elevator.stopElevator();
+      Elevator.stopWinch();
     }
 
   }
@@ -47,8 +47,8 @@ public class Elevator_Command extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Elevator.stopElevatorDown();
-    Elevator.stopElevatorUp();
+    Elevator.stopElevator();
+    Elevator.stopWinch();
   }
 
   // Returns true when the command should end.
