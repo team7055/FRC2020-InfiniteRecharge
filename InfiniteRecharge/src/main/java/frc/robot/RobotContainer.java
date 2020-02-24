@@ -22,6 +22,7 @@ import frc.robot.commands.IntakeMotor_Command;
 import frc.robot.commands.PositionControlReset_Command;
 import frc.robot.commands.PositionControl_Command;
 import frc.robot.subsystems.ColorSensor_Subsystem;
+import frc.robot.subsystems.Conveyor_Subsystem;
 import frc.robot.commands.Shooter_Command;
 import frc.robot.subsystems.Drivetrain_Subsystem;
 import frc.robot.subsystems.Intake_Subsystem;
@@ -48,6 +49,8 @@ public class RobotContainer {
   private final PositionControlReset_Command positionControlReset = new PositionControlReset_Command(colorSensor);
   
   private final Shooter_Subsystem shooter = new Shooter_Subsystem();
+
+  private final Conveyor_Subsystem conveyor = new Conveyor_Subsystem();
   // Testing!!
   // Seeing if it is okay to create a new command for the button
   private final ColorSensor_Command colorSensorCommand;
@@ -83,10 +86,11 @@ public class RobotContainer {
 
     shooter.setDefaultCommand(new Shooter_Command(
       shooter, 
+      conveyor,
       driveStick
     ));
 
-    JoystickButton intakeButton = new JoystickButton(driveStick, 2);
+    JoystickButton intakeButton = new JoystickButton(driveStick, Constants.Controller.JOYSTICK_B_BUTTON);
 
     intakeButton.whileHeld(new IntakeMotor_Command(intake));
 
