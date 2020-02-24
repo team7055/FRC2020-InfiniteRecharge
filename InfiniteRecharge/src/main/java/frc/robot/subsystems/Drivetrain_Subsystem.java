@@ -180,6 +180,22 @@ public class Drivetrain_Subsystem extends SubsystemBase {
     }
   }
 
+  public Talon getFrontLeftMotor() {
+    return frontLeft;
+  }
+
+  public Talon getFrontRightMotor() {
+    return frontRight;
+  }
+
+  public Talon getRearLeftMotor() {
+    return rearLeft;
+  }
+
+  public Talon getRearRightMotor() {
+    return rearRight;
+  }
+
   public Pose2d getPose() {
     return odometry.getPoseMeters();
   }

@@ -35,7 +35,11 @@ public class DriveStraightTimed_Command extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drivetrain.drive(0.5, 0, 0);
+    //drivetrain.drive(0.5, 0, 0);
+    drivetrain.getFrontLeftMotor().set(0.5);
+    drivetrain.getFrontRightMotor().set(0.5);
+    drivetrain.getRearLeftMotor().set(0.5);
+    drivetrain.getRearRightMotor().set(0.5);
   }
 
   // Called once the command ends or is interrupted.
