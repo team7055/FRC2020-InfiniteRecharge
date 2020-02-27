@@ -18,8 +18,8 @@ public class Elevator_subsystem extends SubsystemBase {
   private Talon motorElevator, motorWinch;
 
   public Elevator_subsystem() {
-    motorElevator = new Talon(Motors.MOTOR_ELEVATOR_UP);
-    motorWinch = new Talon(Motors.MOTOR_ELEVATOR_DOWN);
+    motorElevator = new Talon(Motors.MOTOR_ELEVATOR);
+    motorWinch = new Talon(Motors.MOTOR_WINCH);
   }
 
   //starts the elevator going up
@@ -34,6 +34,10 @@ public class Elevator_subsystem extends SubsystemBase {
     System.out.println("Starting winch");
   }
 
+  public void startElevatorDown() {
+    motorElevator.set(-1);
+    System.out.println("Starting elevator down");
+  }
   //stops the elevator going up
   public void stopElevator(){
     motorElevator.set(0.0);

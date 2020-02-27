@@ -36,6 +36,8 @@ public class Elevator_Command extends CommandBase {
     if (Trigger.getPOV() == 0) {
       Elevator.startElevator();
     } else if (Trigger.getPOV() == 180 ) {
+      Elevator.startElevatorDown();
+    } else if (Trigger.getPOV() == 90 ) {
       Elevator.startWinch();
     } else {
       Elevator.stopElevator();

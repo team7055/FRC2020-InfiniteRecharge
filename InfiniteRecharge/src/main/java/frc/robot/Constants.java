@@ -29,8 +29,8 @@ public final class Constants {
         public static final int WHEEL_MOTOR = 4;
         public static final int MOTOR_SHOOTER_LEFT = 5;
         public static final int MOTOR_SHOOTER_RIGHT = 6;
-        public static final int MOTOR_ELEVATOR_UP = 10;
-        public static final int MOTOR_ELEVATOR_DOWN = 11;
+        public static final int MOTOR_ELEVATOR = 7;
+        public static final int MOTOR_WINCH = 8;
     }
 
     // Encoders for motors
