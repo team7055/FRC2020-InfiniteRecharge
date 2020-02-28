@@ -30,6 +30,8 @@ public final class Constants {
         public static final int MOTOR_SHOOTER_LEFT = 5;
         public static final int MOTOR_SHOOTER_RIGHT = 6;
         public static final int MOTOR_CONVEYOR = 7;
+        public static final int MOTOR_ELEVATOR = 8;
+        public static final int MOTOR_WINCH = 9;
     }
 
     // Encoders for motors
@@ -61,6 +63,7 @@ public final class Constants {
         public static final int JOYSTICK_RIGHT_Y = 5;
         public static final int JOYSTICK_A_BUTTON = 1;
         public static final int JOYSTICK_B_BUTTON = 2;
+        public static final int JOYSTICK_POV = 0;
     }
 
     // Colors retrieved from the color sensor
