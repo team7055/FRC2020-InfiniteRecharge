@@ -7,7 +7,7 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.Motors;
 
@@ -15,11 +15,11 @@ public class Elevator_subsystem extends SubsystemBase {
   /**
    * Creates a new Elevator_subsystem.
    */
-  private Talon motorElevator, motorWinch;
+  private Victor motorElevator, motorWinch;
 
   public Elevator_subsystem() {
-    motorElevator = new Talon(Motors.MOTOR_ELEVATOR);
-    motorWinch = new Talon(Motors.MOTOR_WINCH);
+    motorElevator = new Victor(Motors.MOTOR_ELEVATOR);
+    motorWinch = new Victor(Motors.MOTOR_WINCH);
   }
 
   //starts the elevator going up
