@@ -29,13 +29,16 @@ public final class Constants {
         public static final int WHEEL_MOTOR = 4;
         public static final int MOTOR_SHOOTER_LEFT = 5;
         public static final int MOTOR_SHOOTER_RIGHT = 6;
-        public static final int MOTOR_ELEVATOR = 10;
-        public static final int MOTOR_WINCH = 11;
+        public static final int MOTOR_CONVEYOR = 7;
+        public static final int MOTOR_ELEVATOR = 8;
+        public static final int MOTOR_WINCH = 9;
     }
 
     // Encoders for motors
     public final class Encoders {
-        public static final double SMALL_MOTOR_DIST_PER_PULSE = ((4 * Math.PI) * .75) / 2048;
+        public static final double SMALL_MOTOR_DIST_PER_PULSE = ((4 * Math.PI) * .75) / 2048; // .75 is for  gear ratio
+        public static final double DRIVE_MOTOR_DIST_PER_PULSE = ((7.75 * Math.PI) / 2048);
+        public static final double DRIVE_MOTOR_DIST_PER_PULSE_METRIC = (20.0 * Math.PI) / 2048;
 
         public static final int MOTOR_FRONT_RIGHT_ENCODER_A = 0;
         public static final int MOTOR_FRONT_RIGHT_ENCODER_B = 1;
@@ -59,6 +62,7 @@ public final class Constants {
         public static final int JOYSTICK_RIGHT_X = 4;
         public static final int JOYSTICK_RIGHT_Y = 5;
         public static final int JOYSTICK_A_BUTTON = 1;
+        public static final int JOYSTICK_B_BUTTON = 2;
         public static final int JOYSTICK_POV = 0;
     }
 
