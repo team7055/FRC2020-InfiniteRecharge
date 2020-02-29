@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -17,16 +18,15 @@ public class Conveyor_Subsystem extends SubsystemBase {
    * Creates a new Conveyor_Subsystem.
    */
   private Victor conveyorMotor;
+  private DigitalInput limitSwitch;
   
   public Conveyor_Subsystem() {
     conveyorMotor = new Victor(MOTOR_CONVEYOR);
+    limitSwitch = new DigitalInput(12);
   }
 
-  public void moveConveyor(boolean forward) {
-    if (forward)
-      conveyorMotor.set(0.5);
-    else 
-      conveyorMotor.set(-0.5);
+  public void moveConveyor(double speed) {
+    conveyorMotor.set(speed);
   }
 
   public void stopConveyor() {
@@ -36,5 +36,6 @@ public class Conveyor_Subsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    System.out.println(limitSwitch.get());
   }
 }

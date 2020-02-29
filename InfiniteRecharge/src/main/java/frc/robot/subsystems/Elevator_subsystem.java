@@ -25,29 +25,24 @@ public class Elevator_subsystem extends SubsystemBase {
   //starts the elevator going up
   public void startElevator() {
     motorElevator.set(1);
-    System.out.println("Starting elevator");
   }
 
   //starts the elevator going down
   public void startWinch(){
     motorWinch.set(.5);
-    System.out.println("Starting winch");
   }
 
   public void startElevatorDown() {
     motorElevator.set(-1);
-    System.out.println("Starting elevator down");
   }
   //stops the elevator going up
   public void stopElevator(){
     motorElevator.set(0.0);
-    System.out.println("stopping elevator up");
   }
 
   //stops the elevator going down
   public void stopWinch(){
     motorWinch.set(0.0);
-    System.out.println("stopping elevator down");
   }
   @Override
   public void periodic() {
