@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Victor;
@@ -60,10 +61,15 @@ public class Drivetrain_Subsystem extends SubsystemBase {
     rightMotors = new SpeedControllerGroup(frontRight, rearRight);
 
     // Initialize the locations of wheels relative to robot center
-    Translation2d frontLeftLocation = new Translation2d(-0.254, -0.254);
-    Translation2d frontRightLocation = new Translation2d(-0.254, 0.254);
-    Translation2d backLeftLocation = new Translation2d(0.254, -0.254);
-    Translation2d backRightLocation = new Translation2d(0.254, 0.254);
+    // Translation2d frontLeftLocation = new Translation2d(-0.254, -0.254);
+    // Translation2d frontRightLocation = new Translation2d(-0.254, 0.254);
+    // Translation2d backLeftLocation = new Translation2d(0.254, -0.254);
+    // Translation2d backRightLocation = new Translation2d(0.254, 0.254);
+
+    Translation2d frontLeftLocation = new Translation2d(-0.254, 0.254);
+    Translation2d frontRightLocation = new Translation2d(0.254, 0.254);
+    Translation2d backLeftLocation = new Translation2d(-0.254, -0.254);
+    Translation2d backRightLocation = new Translation2d(-0.254, 0.254);
 
     // create the kinematics class with the locations
     kinematics = new MecanumDriveKinematics(
@@ -127,11 +133,21 @@ public class Drivetrain_Subsystem extends SubsystemBase {
   }
 
   public void drive(MecanumDriveWheelSpeeds speeds) {
-    frontLeft.set(10 * speeds.frontLeftMetersPerSecond);
-    frontRight.set(10 * speeds.frontRightMetersPerSecond);
-    rearLeft.set(-10 * speeds.rearLeftMetersPerSecond);
-    rearRight.set(-10 * speeds.rearRightMetersPerSecond);
-    drivetrain.feed();
+    PIDController frontLeftController = new PIDController(0.0647, 0, 0);
+    frontLeft.set(frontLeftController.calculate(frontLeftEncoder.getRate(), speeds.frontLeftMetersPerSecond));
+    frontLeftController.close();
+    
+    PIDController frontRightController = new PIDController(0.0647, 0, 0);
+    frontRight.set(frontRightController.calculate(frontRightEncoder.getRate(), speeds.frontRightMetersPerSecond));
+    frontRightController.close();
+
+    PIDController rearLeftController = new PIDController(0.0647, 0, 0);
+    rearLeft.set(frontLeftController.calculate(rearLeftEncoder.getRate(), speeds.rearLeftMetersPerSecond));
+    rearLeftController.close();
+
+    PIDController rearRightController = new PIDController(0.0647, 0, 0);
+    rearRight.set(rearRightController.calculate(rearRightEncoder.getRate(), speeds.rearRightMetersPerSecond));
+    rearRightController.close();
   }
 
   public void tankDriveVolts(double leftVolts, double rightVolts) {
@@ -197,7 +213,7 @@ public class Drivetrain_Subsystem extends SubsystemBase {
   }
 
   public Pose2d getPose() {
-    return odometry.getPoseMeters();
+    return pose;
   }
 
   public MecanumDriveKinematics getKinematics() {
@@ -217,7 +233,7 @@ public class Drivetrain_Subsystem extends SubsystemBase {
     // Get my gyro angle. We are negating the value because gyros return positive
     // values as the robot turns clockwise. This is not standard convention that is
     // used by the WPILib classes.
-    Rotation2d heading = Rotation2d.fromDegrees(-gyro.getAngle());
+    Rotation2d heading = Rotation2d.fromDegrees(-gyro.getYaw());
 
     // Update the pose
     pose = odometry.update(heading, wheelSpeeds);

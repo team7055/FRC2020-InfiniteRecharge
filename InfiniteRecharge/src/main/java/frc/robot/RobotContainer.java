@@ -130,7 +130,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    String trajectoryJSON = "paths/Starting.wpilib.json";
+    String trajectoryJSON = "paths/thiswillwork.wpilib.json";
     Trajectory trajectory = null;
 
     try {
@@ -152,8 +152,8 @@ public class RobotContainer {
       drivetrain
     );
   
-    //return followPathCommand;
-    return new DriveStraightTimed_Command(drivetrain, 5.0);
+    return followPathCommand;
+    //return new DriveStraightTimed_Command(drivetrain, 5.0);
   }
   
   public DriveStraightTimed_Command driveStraight() {

@@ -82,7 +82,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     // m_autonomousCommand.schedule(false);
     // System.out.println(m_autonomousCommand.isScheduled());
-    driveStraightCommand.schedule(false);
+    m_autonomousCommand.schedule(false);
   }
 
   /**
