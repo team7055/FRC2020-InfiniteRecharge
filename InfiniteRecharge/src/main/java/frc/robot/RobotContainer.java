@@ -130,7 +130,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    String trajectoryJSON = "paths/thiswillwork.wpilib.json";
+    String trajectoryJSON = "paths/definitelyworkstraight.wpilib.json";
     Trajectory trajectory = null;
 
     try {
@@ -143,7 +143,7 @@ public class RobotContainer {
     MecanumControllerCommand followPathCommand = new MecanumControllerCommand(
       trajectory,
       drivetrain::getPose,
-      drivetrain.getKinematics() ,
+      drivetrain.getKinematics(),
       new PIDController(0.000647, 0.0, 0.0),
       new PIDController(0.000647, 0.0, 0.0), 
       new ProfiledPIDController(0.000647, 0.0, 0.0, new Constraints(0.0508, 5.0)), 
