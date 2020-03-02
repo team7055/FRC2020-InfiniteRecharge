@@ -62,13 +62,13 @@ public class Shooter_Command extends CommandBase {
         conveyor.moveConveyor(0.15);
       } else if (shooting && timer.get() > 1.0 / 16.0 && timer.get() < 0.125) {
         shoot.spinShooter(-0.5);
-        conveyor.moveConveyor(0.35);
+        conveyor.moveConveyor(-0.35);
       } else if (shooting && timer.get() >= 0.125 && timer.get() < 0.25) {
         shoot.spinShooter(0.9);
-        conveyor.moveConveyor(0.5);
+        conveyor.moveConveyor(-0.75);
       } else if (shooting && timer.get() >= 0.25) {
         shoot.spinShooter(0.9);
-        conveyor.moveConveyor(-0.5); // neg
+        conveyor.moveConveyor(-0.75); // neg
       }
 
     // If the trigger is not being pressed, we are not shooting
