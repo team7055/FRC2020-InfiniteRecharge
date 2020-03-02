@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Victor;
@@ -48,6 +49,8 @@ public class Drivetrain_Subsystem extends SubsystemBase {
   private MecanumDriveOdometry odometry;
   private MecanumDriveKinematics kinematics;
   private Pose2d pose;
+
+  private SimpleMotorFeedforward feedforward;
   
   public Drivetrain_Subsystem() {
     // Initialize motors with ports from Constants.java
@@ -81,10 +84,13 @@ public class Drivetrain_Subsystem extends SubsystemBase {
     gyro.reset();
 
     // create rotation2d object with the gyroscope heading
-    Rotation2d heading = new Rotation2d(-gyro.getAngle());
+    Rotation2d heading = Rotation2d.fromDegrees(-gyro.getAngle());
 
     // create odometry
     odometry = new MecanumDriveOdometry(kinematics, heading);
+
+    // create the feedforward
+    feedforward = new SimpleMotorFeedforward(0.557, 0.0578);
 
     // Initialize encoders on each drive motor
     frontLeftEncoder = new Encoder(DRIVE_FRONT_LEFT_ENCODER_A, DRIVE_FRONT_LEFT_ENCODER_B);
@@ -133,26 +139,38 @@ public class Drivetrain_Subsystem extends SubsystemBase {
   }
 
   public void drive(MecanumDriveWheelSpeeds speeds) {
+    setSpeeds(speeds);
+  }
+
+  public void setSpeeds(MecanumDriveWheelSpeeds speeds) {
     PIDController frontLeftController = new PIDController(0.0647, 0, 0);
-    frontLeft.set(frontLeftController.calculate(frontLeftEncoder.getRate(), speeds.frontLeftMetersPerSecond));
-    frontLeftController.close();
-    
     PIDController frontRightController = new PIDController(0.0647, 0, 0);
-    frontRight.set(frontRightController.calculate(frontRightEncoder.getRate(), speeds.frontRightMetersPerSecond));
-    frontRightController.close();
-
     PIDController rearLeftController = new PIDController(0.0647, 0, 0);
-    rearLeft.set(frontLeftController.calculate(rearLeftEncoder.getRate(), speeds.rearLeftMetersPerSecond));
-    rearLeftController.close();
-
     PIDController rearRightController = new PIDController(0.0647, 0, 0);
-    rearRight.set(rearRightController.calculate(rearRightEncoder.getRate(), speeds.rearRightMetersPerSecond));
+
+    double flFeedforward = feedforward.calculate(speeds.frontLeftMetersPerSecond);
+    double frFeedforward = feedforward.calculate(speeds.frontLeftMetersPerSecond);
+    double rlFeedforward = feedforward.calculate(speeds.rearLeftMetersPerSecond);
+    double rrFeedforward = feedforward.calculate(speeds.rearRightMetersPerSecond);
+
+    double flOutput = frontLeftController.calculate(frontLeftEncoder.getRate(), speeds.frontLeftMetersPerSecond);
+    double frOutput = frontRightController.calculate(frontRightEncoder.getRate(), speeds.frontRightMetersPerSecond);
+    double rlOutput = rearLeftController.calculate(rearLeftEncoder.getRate(), speeds.rearLeftMetersPerSecond);
+    double rrOutput = rearRightController.calculate(rearRightEncoder.getRate(), speeds.rearRightMetersPerSecond);
+
+    driveVolts(flOutput + flFeedforward, frOutput + frFeedforward, rlOutput + rlFeedforward, rrOutput + rrFeedforward);
+
+    frontLeftController.close();
+    frontRightController.close();
+    rearLeftController.close();
     rearRightController.close();
   }
 
-  public void tankDriveVolts(double leftVolts, double rightVolts) {
-    leftMotors.setVoltage(leftVolts);
-    rightMotors.setVoltage(-rightVolts);
+  public void driveVolts(double flVolts, double frVolts, double rlVolts, double rrVolts) {
+    frontLeft.setVoltage(flVolts);
+    frontRight.setVoltage(frVolts);
+    rearLeft.setVoltage(rlVolts);
+    rearRight.setVoltage(rrVolts);
     drivetrain.feed();
   }
   // Shooter Inside Wheel Distance is 5 and 3 quarters inches
@@ -173,6 +191,15 @@ public class Drivetrain_Subsystem extends SubsystemBase {
     Rotation2d heading = Rotation2d.fromDegrees(-gyro.getAngle());
 
     return heading;
+  }
+
+  public MecanumDriveWheelSpeeds getState() {
+    return new MecanumDriveWheelSpeeds(
+      frontLeftEncoder.getRate(),
+      frontRightEncoder.getRate(),
+      rearLeftEncoder.getRate(),
+      rearRightEncoder.getRate()
+    );
   }
 
   // @param whichEncoder >= 0 & <= 3
@@ -226,16 +253,7 @@ public class Drivetrain_Subsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
-    // Get my wheel speeds
-    MecanumDriveWheelSpeeds wheelSpeeds = getWheelSpeeds();
-
-    // Get my gyro angle. We are negating the value because gyros return positive
-    // values as the robot turns clockwise. This is not standard convention that is
-    // used by the WPILib classes.
-    Rotation2d heading = Rotation2d.fromDegrees(-gyro.getYaw());
-
     // Update the pose
-    pose = odometry.update(heading, wheelSpeeds);
+    pose = odometry.update(getHeading(), getState());
   }
 }
