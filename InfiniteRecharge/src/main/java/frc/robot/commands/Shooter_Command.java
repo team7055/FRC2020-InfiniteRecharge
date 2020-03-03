@@ -58,10 +58,10 @@ public class Shooter_Command extends CommandBase {
       // This compensates for the time it takes to ramp up the motors and means
       // All balls fire at a similar speed
       if (shooting && timer.get() > 0.0 && timer.get() < 1.0 / 16.0) {
-        shoot.spinShooter(-0.5);
+        shoot.spinShooter(-0.15);
         conveyor.moveConveyor(0.15);
       } else if (shooting && timer.get() > 1.0 / 16.0 && timer.get() < 0.125) {
-        shoot.spinShooter(-0.5);
+        shoot.spinShooter(-0.15);
         conveyor.moveConveyor(-0.35);
       } else if (shooting && timer.get() >= 0.125 && timer.get() < 0.25) {
         shoot.spinShooter(0.9);
