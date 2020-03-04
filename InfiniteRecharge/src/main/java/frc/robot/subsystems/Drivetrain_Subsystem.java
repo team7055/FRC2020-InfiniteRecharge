@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.MecanumDriveKinematics;
+import edu.wpi.first.wpilibj.kinematics.MecanumDriveMotorVoltages;
 import edu.wpi.first.wpilibj.kinematics.MecanumDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.MecanumDriveWheelSpeeds;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -51,6 +52,10 @@ public class Drivetrain_Subsystem extends SubsystemBase {
   private Pose2d pose;
 
   private SimpleMotorFeedforward feedforward;
+  PIDController frontLeftController;
+  PIDController frontRightController;
+  PIDController rearLeftController;
+  PIDController rearRightController;
   
   public Drivetrain_Subsystem() {
     // Initialize motors with ports from Constants.java
@@ -72,7 +77,7 @@ public class Drivetrain_Subsystem extends SubsystemBase {
     Translation2d frontLeftLocation = new Translation2d(-0.254, 0.254);
     Translation2d frontRightLocation = new Translation2d(0.254, 0.254);
     Translation2d backLeftLocation = new Translation2d(-0.254, -0.254);
-    Translation2d backRightLocation = new Translation2d(-0.254, 0.254);
+    Translation2d backRightLocation = new Translation2d(0.254, -0.254);
 
     // create the kinematics class with the locations
     kinematics = new MecanumDriveKinematics(
@@ -127,6 +132,18 @@ public class Drivetrain_Subsystem extends SubsystemBase {
     rearRightEncoder.setDistancePerPulse(DRIVE_MOTOR_DIST_PER_PULSE_METRIC);
     rearLeftEncoder.setDistancePerPulse(DRIVE_MOTOR_DIST_PER_PULSE_METRIC);
 
+    // Reset the encoders once they are created (safety measure)
+    frontRightEncoder.reset();
+    frontLeftEncoder.reset();
+    rearRightEncoder.reset();
+    rearLeftEncoder.reset();
+
+    // Initialize the PID loops for each motor
+    frontLeftController = new PIDController(0.0647, 0, 0);
+    frontRightController = new PIDController(0.0647, 0, 0);
+    rearLeftController = new PIDController(0.0647, 0, 0);
+    rearRightController = new PIDController(0.0647, 0, 0);
+
     // Initialize drive with motors
     drivetrain = new MecanumDrive(frontLeft, rearLeft, frontRight, rearRight);
   }
@@ -138,18 +155,20 @@ public class Drivetrain_Subsystem extends SubsystemBase {
     //System.out.println(x + " " + y + " " + z);
   }
 
+  public void drive(MecanumDriveMotorVoltages voltages) {
+    frontLeft.setVoltage(voltages.frontLeftVoltage);
+    frontRight.setVoltage(-voltages.frontRightVoltage);
+    rearLeft.setVoltage(voltages.rearLeftVoltage);
+    rearRight.setVoltage(-voltages.rearRightVoltage);
+  }
+
   public void drive(MecanumDriveWheelSpeeds speeds) {
     setSpeeds(speeds);
   }
 
   public void setSpeeds(MecanumDriveWheelSpeeds speeds) {
-    PIDController frontLeftController = new PIDController(0.0647, 0, 0);
-    PIDController frontRightController = new PIDController(0.0647, 0, 0);
-    PIDController rearLeftController = new PIDController(0.0647, 0, 0);
-    PIDController rearRightController = new PIDController(0.0647, 0, 0);
-
     double flFeedforward = feedforward.calculate(speeds.frontLeftMetersPerSecond);
-    double frFeedforward = feedforward.calculate(speeds.frontLeftMetersPerSecond);
+    double frFeedforward = feedforward.calculate(speeds.frontRightMetersPerSecond);
     double rlFeedforward = feedforward.calculate(speeds.rearLeftMetersPerSecond);
     double rrFeedforward = feedforward.calculate(speeds.rearRightMetersPerSecond);
 
@@ -158,20 +177,22 @@ public class Drivetrain_Subsystem extends SubsystemBase {
     double rlOutput = rearLeftController.calculate(rearLeftEncoder.getRate(), speeds.rearLeftMetersPerSecond);
     double rrOutput = rearRightController.calculate(rearRightEncoder.getRate(), speeds.rearRightMetersPerSecond);
 
-    driveVolts(flOutput + flFeedforward, frOutput + frFeedforward, rlOutput + rlFeedforward, rrOutput + rrFeedforward);
+    System.out.println(frontLeftController.atSetpoint());
 
-    frontLeftController.close();
-    frontRightController.close();
-    rearLeftController.close();
-    rearRightController.close();
+    driveVolts(flOutput + flFeedforward, frOutput + frFeedforward, rlOutput + rlFeedforward, rrOutput + rrFeedforward);
+    drivetrain.feed();
+    drivetrain.feedWatchdog();
   }
 
   public void driveVolts(double flVolts, double frVolts, double rlVolts, double rrVolts) {
-    frontLeft.setVoltage(flVolts);
-    frontRight.setVoltage(frVolts);
-    rearLeft.setVoltage(rlVolts);
-    rearRight.setVoltage(rrVolts);
     drivetrain.feed();
+    drivetrain.feedWatchdog();
+    frontLeft.set(flVolts);
+    frontRight.set(-frVolts);
+    rearLeft.set(rlVolts);
+    rearRight.set(-rrVolts);
+    drivetrain.feed();
+    drivetrain.feedWatchdog();
   }
   // Shooter Inside Wheel Distance is 5 and 3 quarters inches
 
@@ -223,6 +244,10 @@ public class Drivetrain_Subsystem extends SubsystemBase {
     }
   }
 
+  public SimpleMotorFeedforward getFeedforward() {
+    return feedforward;
+  }
+
   public Talon getFrontLeftMotor() {
     return frontLeft;
   }
@@ -237,6 +262,22 @@ public class Drivetrain_Subsystem extends SubsystemBase {
 
   public Talon getRearRightMotor() {
     return rearRight;
+  }
+
+  public PIDController getFrontLeftController() {
+    return frontLeftController;
+  }
+
+  public PIDController getFrontRightController() {
+    return frontRightController;
+  }
+
+  public PIDController getRearLeftController() {
+    return rearLeftController;
+  }
+
+  public PIDController getRearRightController() {
+    return rearRightController;
   }
 
   public Pose2d getPose() {
