@@ -66,14 +66,14 @@ public class Drivetrain_Subsystem extends SubsystemBase {
      int pulsesPerRev = 2048;
 
      //frontRightEncoder.setDistancePerPulse((diameterOfShaft * Math.PI) / pulsesPerRev);
-
+     
     // Initialize drive with motors
     drivetrain = new MecanumDrive(frontLeft, rearLeft, frontRight, rearRight);
   }
 
   public void drive(double x, double y, double z) {
     drivetrain.feedWatchdog();
-    drivetrain.driveCartesian(x, y, z);
+    drivetrain.driveCartesian(-x, -y, -z);
     //System.out.println(x + " " + y + " " + z);
   }
   // Shooter Inside Wheel Distance is 5 and 3 quarters inches
