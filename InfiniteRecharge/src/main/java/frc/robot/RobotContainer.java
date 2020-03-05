@@ -7,10 +7,6 @@
 
 package frc.robot;
 
-import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
@@ -19,16 +15,10 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
-import edu.wpi.first.wpilibj.controller.RamseteController;
-import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
-import edu.wpi.first.wpilibj.geometry.Translation2d;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile.Constraints;
 import frc.robot.commands.ColorSensor_Command;
-import frc.robot.commands.DriveStraightTimed_Command;
-import frc.robot.commands.DriveStraight_Command;
 import frc.robot.commands.Drive_Command;
 import frc.robot.commands.PositionControlReset_Command;
 import frc.robot.commands.PositionControl_Command;
@@ -36,12 +26,14 @@ import frc.robot.subsystems.ColorSensor_Subsystem;
 import frc.robot.commands.Shooter_Command;
 import frc.robot.subsystems.Drivetrain_Subsystem;
 import frc.robot.subsystems.Shooter_Subsystem;
-import frc.robot.Constants.Colors.Colour;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.MecanumControllerCommand;
-import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
+import static frc.robot.Constants.Controller.*;
+import frc.robot.Constants.Colors.Colour;
 import static frc.robot.Constants.PIDVals.*;
+import static frc.robot.Constants.Motors.*;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -61,12 +53,10 @@ public class RobotContainer {
   private final Shooter_Subsystem shooter = new Shooter_Subsystem();
 
   // Robot's command
-  private final PositionControl_Command positionControl = new PositionControl_Command(colorSensor, SETPOINT);
+  private final PositionControl_Command positionControl = new PositionControl_Command(colorSensor, WHEEL_SETPOINT);
 
   private final PositionControlReset_Command positionControlReset = new PositionControlReset_Command(colorSensor);
   
-  private final DriveStraight_Command autoCommand = new DriveStraight_Command(drivetrain, 60);
-
   // Testing!!
   // Seeing if it is okay to create a new command for the button
   private final ColorSensor_Command colorSensorCommand;
@@ -99,18 +89,14 @@ public class RobotContainer {
       driveStick
     ));
 
-    JoystickButton rotationControlButton = new JoystickButton(driveStick, Constants.Controller.JOYSTICK_A_BUTTON);
+    JoystickButton rotationControlButton = new JoystickButton(driveStick, JOYSTICK_A_BUTTON);
     
     rotationControlButton.whileHeld(positionControl);
     rotationControlButton.whenInactive(positionControlReset);
 
-    JoystickButton positionControlButton = new JoystickButton(driveStick, 3);
+    JoystickButton positionControlButton = new JoystickButton(driveStick, JOYSTICK_B_BUTTON);
 
     positionControlButton.whileHeld(colorSensorCommand);
-
-    JoystickButton autoCommandButton = new JoystickButton(driveStick, 4);
-
-    autoCommandButton.whileHeld(autoCommand);
     
     shooter.setDefaultCommand(new Shooter_Command(
       shooter, 
@@ -141,28 +127,26 @@ public class RobotContainer {
     }
 
     MecanumControllerCommand followPathCommand = new MecanumControllerCommand(
+      // trajectory for the robot to follow
       trajectory,
+      // supplier to get the robot's pose
       drivetrain::getPose,
-      //drivetrain.getFeedforward(),//
+      // kinematics of the robot
       drivetrain.getKinematics(),
-      new PIDController(0.000647, 0.0, 0.0),
-      new PIDController(0.000647, 0.0, 0.0), 
-      new ProfiledPIDController(0.000647, 0.0, 0.0, new Constraints(0.0508, 5.0)), 
-      0.0508,
-      //drivetrain.getFrontLeftController(),//
-      //drivetrain.getRearLeftController(),//
-      //drivetrain.getFrontRightController(),//
-      //drivetrain.getRearRightController(),//
-      //drivetrain::getState,//
+      // x PID controller
+      new PIDController(AUTO_CONTROLLER_P, 0.0, 0.0),
+      // y PID controller
+      new PIDController(AUTO_CONTROLLER_P, 0.0, 0.0), 
+      // theta PID controller
+      new ProfiledPIDController(AUTO_CONTROLLER_P, 0.0, 0.0, new Constraints(MAX_VELOCITY, MAX_ACCElERATION)), 
+      // max  velocity
+      MAX_VELOCITY,
+      // consumer for MecanumWheelSpeeds object
       drivetrain::drive, 
+      // required subsystems (only drivetrain)
       drivetrain
     );
   
     return followPathCommand;
-    //return new DriveStraightTimed_Command(drivetrain, 5.0);
-  }
-  
-  public DriveStraightTimed_Command driveStraight() {
-    return new DriveStraightTimed_Command(drivetrain, 5.0);
   }
 }

@@ -29,6 +29,9 @@ public final class Constants {
         public static final int WHEEL_MOTOR = 4;
         public static final int MOTOR_SHOOTER_LEFT = 5;
         public static final int MOTOR_SHOOTER_RIGHT = 6;
+
+        public static final double MAX_VELOCITY = 0.0508;
+        public static final double MAX_ACCElERATION = 1.5;
     }
 
     // Encoders for motors
@@ -57,11 +60,16 @@ public final class Constants {
 
     public final class PIDVals{
         public static final double TOLERANCE = 0.1;
+
+        // Color wheel PID Vals
         public static final double POSITION_CONTROL_P = 0.003100;
         public static final double POSITION_CONTROL_I = 0.000070;
         public static final double POSITION_CONTROL_D = 0.005;
-        public static final double SETPOINT = Math.PI * 32 * 4;
-        public static final double SETPOINT_METERS = Math.PI * 0.815 * 4;
+        public static final double WHEEL_SETPOINT = Math.PI * 32 * 4;
+        public static final double WHEEL_SETPOINT_METERS = Math.PI * 0.815 * 4;
+
+        // Autonomous PID Vals
+        public static final double AUTO_CONTROLLER_P = 0.000647;
     }
 
     // Ports for various joystick axes and buttons
@@ -73,6 +81,9 @@ public final class Constants {
         public static final int JOYSTICK_RIGHT_X = 4;
         public static final int JOYSTICK_RIGHT_Y = 5;
         public static final int JOYSTICK_A_BUTTON = 1;
+        public static final int JOYSTICK_B_BUTTON = 2;
+        public static final int JOYSTICK_X_BUTTON = 3;
+        public static final int JOYSTICK_Y_BUTTON = 4;
     }
 
     // Colors retrieved from the color sensor

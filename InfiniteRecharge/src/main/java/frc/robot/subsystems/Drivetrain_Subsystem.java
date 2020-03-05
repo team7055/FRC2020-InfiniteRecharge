@@ -103,11 +103,6 @@ public class Drivetrain_Subsystem extends SubsystemBase {
     rearLeftEncoder = new Encoder(DRIVE_REAR_LEFT_ENCODER_A, DRIVE_REAR_LEFT_ENCODER_B);
     rearRightEncoder = new Encoder(DRIVE_REAR_RIGHT_ENCODER_A, DRIVE_REAR_RIGHT_ENCODER_B);
 
-    frontLeftEncoder.reset();
-    frontRightEncoder.reset();
-    rearLeftEncoder.reset();
-    rearRightEncoder.reset();
-
      /*
      First of the all the gearbox doesn't matter if the encoder comes after the gearbox.
      Second 0.5 is the diameter of the shaft and multiplying it by PI is the circumference of the shaft.
@@ -151,8 +146,6 @@ public class Drivetrain_Subsystem extends SubsystemBase {
   public void drive(double x, double y, double z) {
     drivetrain.feedWatchdog();
     drivetrain.driveCartesian(x, -y, z);
-    //System.out.println(Math.floor(gyro.getAngle()));
-    //System.out.println(x + " " + y + " " + z);
   }
 
   public void drive(MecanumDriveMotorVoltages voltages) {
@@ -177,8 +170,6 @@ public class Drivetrain_Subsystem extends SubsystemBase {
     double rlOutput = rearLeftController.calculate(rearLeftEncoder.getRate(), speeds.rearLeftMetersPerSecond);
     double rrOutput = rearRightController.calculate(rearRightEncoder.getRate(), speeds.rearRightMetersPerSecond);
 
-    System.out.println(frontLeftController.atSetpoint());
-
     driveVolts(flOutput + flFeedforward, frOutput + frFeedforward, rlOutput + rlFeedforward, rrOutput + rrFeedforward);
     drivetrain.feed();
     drivetrain.feedWatchdog();
@@ -194,10 +185,8 @@ public class Drivetrain_Subsystem extends SubsystemBase {
     drivetrain.feed();
     drivetrain.feedWatchdog();
   }
-  // Shooter Inside Wheel Distance is 5 and 3 quarters inches
 
   public MecanumDriveWheelSpeeds getWheelSpeeds() {
-    // Get my wheel speeds
     MecanumDriveWheelSpeeds wheelSpeeds = new MecanumDriveWheelSpeeds(
       frontLeftEncoder.getRate(), frontRightEncoder.getRate(),
       rearLeftEncoder.getRate(), rearRightEncoder.getRate());
@@ -223,27 +212,6 @@ public class Drivetrain_Subsystem extends SubsystemBase {
     );
   }
 
-  // @param whichEncoder >= 0 & <= 3
-  // used to select which encoder to get
-  // 0 -> front left encoder,
-  // 1 -> front right encoder,
-  // 2 -> rear left encoder,
-  // 3 -> rear right encoder
-  public Encoder getEncoder(int whichEncoder) {
-    switch (whichEncoder) {
-      case 0:
-        return frontLeftEncoder;
-      case 1:
-        return frontRightEncoder;
-      case 2:
-        return rearLeftEncoder;
-      case 3:
-        return rearRightEncoder;
-      default:
-        return frontLeftEncoder;
-    }
-  }
-
   public SimpleMotorFeedforward getFeedforward() {
     return feedforward;
   }
@@ -262,22 +230,6 @@ public class Drivetrain_Subsystem extends SubsystemBase {
 
   public Talon getRearRightMotor() {
     return rearRight;
-  }
-
-  public PIDController getFrontLeftController() {
-    return frontLeftController;
-  }
-
-  public PIDController getFrontRightController() {
-    return frontRightController;
-  }
-
-  public PIDController getRearLeftController() {
-    return rearLeftController;
-  }
-
-  public PIDController getRearRightController() {
-    return rearRightController;
   }
 
   public Pose2d getPose() {

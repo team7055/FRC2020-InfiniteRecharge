@@ -44,7 +44,6 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer(targetColor);
 
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-    driveStraightCommand = m_robotContainer.driveStraight();
   }
 
   /**
