@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.Motors;
@@ -16,10 +17,13 @@ public class Elevator_subsystem extends SubsystemBase {
    * Creates a new Elevator_subsystem.
    */
   private Victor motorElevator, motorWinch;
+  private DigitalInput bottomLimit;
 
   public Elevator_subsystem() {
     motorElevator = new Victor(Motors.MOTOR_ELEVATOR);
     motorWinch = new Victor(Motors.MOTOR_WINCH);
+
+    bottomLimit = new DigitalInput(12);
   }
 
   //starts the elevator going up
@@ -33,7 +37,8 @@ public class Elevator_subsystem extends SubsystemBase {
   }
 
   public void startElevatorDown() {
-    motorElevator.set(-1);
+    if (!bottomLimit.get())
+      motorElevator.set(-1);
   }
   //stops the elevator going up
   public void stopElevator(){
