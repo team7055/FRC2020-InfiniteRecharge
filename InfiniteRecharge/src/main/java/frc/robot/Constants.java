@@ -29,7 +29,10 @@ public final class Constants {
         public static final int WHEEL_MOTOR = 4;
         public static final int MOTOR_SHOOTER_LEFT = 5;
         public static final int MOTOR_SHOOTER_RIGHT = 6;
-
+        public static final int MOTOR_CONVEYOR = 7;
+        public static final int MOTOR_ELEVATOR = 10;
+        public static final int MOTOR_WINCH = 11;
+      
         public static final double MAX_VELOCITY = 0.0508;
         public static final double MAX_ACCElERATION = 1.5;
     }
@@ -84,6 +87,7 @@ public final class Constants {
         public static final int JOYSTICK_B_BUTTON = 2;
         public static final int JOYSTICK_X_BUTTON = 3;
         public static final int JOYSTICK_Y_BUTTON = 4;
+        public static final int JOYSTICK_POV = 0;
     }
 
     // Colors retrieved from the color sensor
