@@ -32,25 +32,47 @@ public final class Constants {
         public static final int MOTOR_CONVEYOR = 7;
         public static final int MOTOR_ELEVATOR = 10;
         public static final int MOTOR_WINCH = 11;
+      
+        public static final double MAX_VELOCITY = 0.0508;
+        public static final double MAX_ACCElERATION = 1.5;
     }
 
     // Encoders for motors
     public final class Encoders {
-        public static final double SMALL_MOTOR_DIST_PER_PULSE = ((4 * Math.PI) * .75) / 2048; // .75 is for  gear ratio
+        // Distances per pulse for various motors/wheels
+        public static final double SMALL_MOTOR_DIST_PER_PULSE = ((4 * Math.PI) * .75) / 2048;
+        public static final double SMALL_MOTOR_DIST_PER_PULSE_METERS = ((0.105 * Math.PI) * .75) / 2048;
         public static final double DRIVE_MOTOR_DIST_PER_PULSE = ((7.75 * Math.PI) / 2048);
-        public static final double DRIVE_MOTOR_DIST_PER_PULSE_METRIC = (20.0 * Math.PI) / 2048;
+        public static final double DRIVE_MOTOR_DIST_PER_PULSE_METRIC = (0.2 * Math.PI) / 2048;
 
-        public static final int MOTOR_FRONT_RIGHT_ENCODER_A = 0;
-        public static final int MOTOR_FRONT_RIGHT_ENCODER_B = 1;
+        // Encoder ports
+        public static final int COLOR_WHEEL_ENCODER_A = 0;
+        public static final int COLOR_WHEEL_ENCODER_B = 1;
+        public static final int DRIVE_FRONT_LEFT_ENCODER_A = 2;
+        public static final int DRIVE_FRONT_LEFT_ENCODER_B = 3;
+        public static final int DRIVE_FRONT_RIGHT_ENCODER_A = 4;
+        public static final int DRIVE_FRONT_RIGHT_ENCODER_B = 5;
+        public static final int DRIVE_REAR_LEFT_ENCODER_A = 6;
+        public static final int DRIVE_REAR_LEFT_ENCODER_B = 7;
+        public static final int DRIVE_REAR_RIGHT_ENCODER_A = 8;
+        public static final int DRIVE_REAR_RIGHT_ENCODER_B = 9;
+
+        // Arc length for each color on color wheel
         public static final double COLOR_WHEEL_ARC_LENGTH = (Math.PI * 32.0) / 8.0;
     }
 
     public final class PIDVals{
         public static final double TOLERANCE = 0.1;
+
+        // Color wheel PID Vals
         public static final double POSITION_CONTROL_P = 0.003100;
         public static final double POSITION_CONTROL_I = 0.000070;
         public static final double POSITION_CONTROL_D = 0.005;
-        public static final double SETPOINT = Math.PI * 32 * 4;
+        public static final double WHEEL_SETPOINT = Math.PI * 32 * 4;
+        public static final double WHEEL_SETPOINT_METERS = Math.PI * 0.815 * 4;
+
+        // Autonomous PID Vals
+        public static final double AUTO_CONTROLLER_P = 0.000647;
     }
 
     // Ports for various joystick axes and buttons
@@ -63,6 +85,8 @@ public final class Constants {
         public static final int JOYSTICK_RIGHT_Y = 5;
         public static final int JOYSTICK_A_BUTTON = 1;
         public static final int JOYSTICK_B_BUTTON = 2;
+        public static final int JOYSTICK_X_BUTTON = 3;
+        public static final int JOYSTICK_Y_BUTTON = 4;
         public static final int JOYSTICK_POV = 0;
     }
 

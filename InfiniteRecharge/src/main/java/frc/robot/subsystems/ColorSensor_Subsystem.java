@@ -36,7 +36,7 @@ public class ColorSensor_Subsystem extends SubsystemBase {
 
   public ColorSensor_Subsystem() {
     // Set the encoder for the color wheel's motor
-    colorWheelEncoder = new Encoder(MOTOR_FRONT_RIGHT_ENCODER_A, MOTOR_FRONT_RIGHT_ENCODER_B);
+    colorWheelEncoder = new Encoder(COLOR_WHEEL_ENCODER_A, COLOR_WHEEL_ENCODER_B);
 
     // Set the encoder's distance per pulse
     // See explanation in drivetrain for in depth reasoning for variables/parameters

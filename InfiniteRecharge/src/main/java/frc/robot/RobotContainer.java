@@ -7,6 +7,18 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
+import edu.wpi.first.wpilibj.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
+import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile.Constraints;
+
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
 
@@ -21,6 +33,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import static frc.robot.Constants.PIDVals.*;
 
 import frc.robot.subsystems.ColorSensor_Subsystem;
+
 import frc.robot.commands.ColorSensor_Command;
 import frc.robot.Constants.Colors.Colour;
 import frc.robot.commands.PositionControlReset_Command;
@@ -41,6 +54,19 @@ import frc.robot.commands.Shooter_Command;
 import frc.robot.subsystems.Shooter_Subsystem;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.MecanumControllerCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
+import static frc.robot.Constants.Controller.*;
+import frc.robot.Constants.Colors.Colour;
+import static frc.robot.Constants.PIDVals.*;
+import static frc.robot.Constants.Motors.*;
+
+import java.io.IOException;
+import java.nio.file.Path;
+
+import edu.wpi.first.wpilibj2.command.Command;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -54,7 +80,10 @@ public class RobotContainer {
 
   private final ColorSensor_Subsystem colorSensor = new ColorSensor_Subsystem();
 
-  private final PositionControl_Command positionControl = new PositionControl_Command(colorSensor, SETPOINT);
+  private final Shooter_Subsystem shooter = new Shooter_Subsystem();
+
+  // Robot's command
+  private final PositionControl_Command positionControl = new PositionControl_Command(colorSensor, WHEEL_SETPOINT);
 
   private final PositionControlReset_Command positionControlReset = new PositionControlReset_Command(colorSensor);
   
@@ -98,6 +127,7 @@ public class RobotContainer {
     ));
 
     elevator.setDefaultCommand(new Elevator_Command(elevator, driveStick));
+    
     shooter.setDefaultCommand(new Shooter_Command(
       shooter, 
       conveyor,
@@ -113,7 +143,7 @@ public class RobotContainer {
     rotationControlButton.whileHeld(positionControl);
     rotationControlButton.whenInactive(positionControlReset);
 
-    JoystickButton positionControlButton = new JoystickButton(driveStick, 3);
+    JoystickButton positionControlButton = new JoystickButton(driveStick, JOYSTICK_B_BUTTON);
 
     positionControlButton.whileHeld(colorSensorCommand);
   }
@@ -129,4 +159,38 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
+  public Command getAutonomousCommand() {
+    String trajectoryJSON = "paths/thiswillwork.wpilib.json";
+    Trajectory trajectory = null;
+
+    try {
+      Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+      trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+    } catch (IOException ex) {
+      DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
+    }
+
+    MecanumControllerCommand followPathCommand = new MecanumControllerCommand(
+      // trajectory for the robot to follow
+      trajectory,
+      // supplier to get the robot's pose
+      drivetrain::getPose,
+      // kinematics of the robot
+      drivetrain.getKinematics(),
+      // x PID controller
+      new PIDController(AUTO_CONTROLLER_P, 0.0, 0.0),
+      // y PID controller
+      new PIDController(AUTO_CONTROLLER_P, 0.0, 0.0), 
+      // theta PID controller
+      new ProfiledPIDController(AUTO_CONTROLLER_P, 0.0, 0.0, new Constraints(MAX_VELOCITY, MAX_ACCElERATION)), 
+      // max  velocity
+      MAX_VELOCITY,
+      // consumer for MecanumWheelSpeeds object
+      drivetrain::drive, 
+      // required subsystems (only drivetrain)
+      drivetrain
+    );
+    SequentialCommandGroup test = new SequentialCommandGroup(followPathCommand);
+    return test;
+  }
 }
