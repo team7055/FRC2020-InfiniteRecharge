@@ -28,6 +28,7 @@ import frc.robot.subsystems.Drivetrain_Subsystem;
 import frc.robot.subsystems.Shooter_Subsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.MecanumControllerCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import static frc.robot.Constants.Controller.*;
@@ -116,7 +117,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    String trajectoryJSON = "paths/works.wpilib.json";
+    String trajectoryJSON = "paths/thiswillwork.wpilib.json";
     Trajectory trajectory = null;
 
     try {
@@ -146,7 +147,7 @@ public class RobotContainer {
       // required subsystems (only drivetrain)
       drivetrain
     );
-  
-    return followPathCommand;
+    SequentialCommandGroup test = new SequentialCommandGroup(followPathCommand);
+    return test;
   }
 }
